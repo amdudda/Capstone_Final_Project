@@ -17,10 +17,11 @@ take an image, generate a bitmap, convert bitmap to pattern, save bitmap to file
 
 tools needed: image converter & resizer, bitmap parser, histogram generator, convert rgb tuples to symbols, store pattern.
 
-to be done in a separate utility: parse stored pattern into human-readable format for display on web page; convert pattern from flat knit to ribbed/garter stitches; add borders
+to be done in separate utilities: parse stored pattern into human-readable format for display on web page; convert pattern from flat knit to ribbed/garter stitches; add borders; rgb to hex color conversion
 
 '''
 
+# TODO : rescale image before converting to bitmap
 def image2bitmap(src,farben=16):
     '''
     takes an image and returns a bitmap
@@ -63,6 +64,18 @@ def colors_to_symbols(colors):
         colormap[colors[i]] = SYMBOLS[i]
     return colormap
 
+def make_pattern(img_pixels,color_key):
+    '''
+    generates a string corresponding to a flat knitting pattern
+    :param img_pixels: list of all the pixels in the bitmap
+    :param color_key: a dictionary mapping color values to ASCII symbols
+    :return: string representing a flat knitting pattern
+    '''
+    output = ''
+    for c in img_pixels:
+        symbol = color_key[c]
+        output += symbol
+    return output
 
 # debugging
 if __name__ == "__main__":
@@ -71,8 +84,13 @@ if __name__ == "__main__":
     my_bmp = image2bitmap(test_img)
     my_pixels = get_pixels(my_bmp)
     my_colorlist = get_unique_colors(my_pixels)
-    ## these just print lists of numbers, not the corresponing RGB tuples
-    print(my_pixels)
+    print(my_pixels[:16])
     print("colors generated: " + str(len(my_colorlist)))
-    for c in my_colorlist:
-        print(c)
+    # for c in my_colorlist:
+    #     print(c)
+    my_colordict = colors_to_symbols(my_colorlist)
+    cd_keys = my_colordict.keys()
+    for k in cd_keys:
+        print(str(k) + ": " + my_colordict[k])
+    my_pattern = make_pattern(my_pixels,my_colordict)
+    print(my_pattern)
