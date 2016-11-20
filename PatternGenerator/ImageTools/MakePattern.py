@@ -29,7 +29,7 @@ def image2bitmap(src,farben=16):
     :return: a bitmap image
     '''
     src_img = Image.open(src)
-    bmp_img = src_img.quantize(colors=farben, method=None, kmeans=0, palette=None)
+    bmp_img = src_img.quantize(colors=farben, method=None, kmeans=0, palette=None).convert(mode="RGB")
     return bmp_img
 
 def get_pixels(img):
@@ -38,6 +38,7 @@ def get_pixels(img):
     :param img: a bitmap image
     :return: an array of rgb tuples
     '''
+    # myimg = img.convert(mode="RGB")
     return list(img.getdata())
 
 def get_unique_colors(colorlist):
@@ -72,7 +73,6 @@ if __name__ == "__main__":
     my_colorlist = get_unique_colors(my_pixels)
     ## these just print lists of numbers, not the corresponing RGB tuples
     print(my_pixels)
-    print(my_colorlist)
-    # some data as I continue to debug:
-    print(my_bmp.height)
-    print(my_bmp.width)
+    print("colors generated: " + str(len(my_colorlist)))
+    for c in my_colorlist:
+        print(c)

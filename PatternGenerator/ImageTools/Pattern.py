@@ -6,7 +6,7 @@ from PIL import Image
 
 myimg = Image.open('../static/images/source/2016-11-18-12-51_sunflowers-1719119_150.jpg')
 # print(myimg.getdata)
-myimg = myimg.convert(mode="RGB",colors=8) # compress image down to 16 colors if needed.
+# myimg = myimg.convert(mode="RGB",colors=8) # compress image down to 16 colors if needed.
 # myimg.convert(colors=2).save("test.bmp")
 
 image_as_rgb_array = list(myimg.getdata())
@@ -25,7 +25,7 @@ newimg = myimg
 newimg = newimg.quantize(colors=16, method=None, kmeans=0, palette=None)
 # we could use the next line to resize it to whatever dimensions we felt like.
 # newimg = newimg.resize((img_width,img_height*2))
-newimg.save("test.bmp")
+# newimg.save("test.bmp")
 
 # print out a list of the pixels in the image
 # want to print each row of the image separately - need to think this through, I don't think this loop works
