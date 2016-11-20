@@ -4,11 +4,12 @@
 from PIL import Image
 
 # static value - an array of possible characters to use as replacements for rgb tuples
+# can't use (, ), or * - they're reserved symbols used for noting repetitions in a pattern
 SYMBOLS = ['@','#','$','%',
-           '&','*','+','<',
-           'ß','?','=','<',
+           '&','÷','+','<',
+           'ß','?','=','>',
            '€','‡','µ','/',
-           '÷']  # 'divided by' is a debugging character to flag that more than 16 colors were generated
+           '!']  # '!' is a debugging character to flag that more than 16 colors were generated
 
 '''
 Workflow:
@@ -77,11 +78,19 @@ def make_pattern(img_pixels,color_key):
         output += symbol
     return output
 
+def print_pattern(patt,i_h,i_w):
+    for r in range(i_h):
+        rowdata = ""
+        for s in range(i_w):
+            rowdata += my_pattern[(r*i_w) + s]
+        print(rowdata)
+
 # debugging
 if __name__ == "__main__":
     test_img = '../static/images/source/2016-11-18-12-51_sunflowers-1719119_150.jpg'
     # test_src = Image.open(test_img)
     my_bmp = image2bitmap(test_img)
+    my_bmp.save("test.bmp")
     my_pixels = get_pixels(my_bmp)
     my_colorlist = get_unique_colors(my_pixels)
     print(my_pixels[:16])
@@ -93,4 +102,8 @@ if __name__ == "__main__":
     for k in cd_keys:
         print(str(k) + ": " + my_colordict[k])
     my_pattern = make_pattern(my_pixels,my_colordict)
-    print(my_pattern)
+    # i_w = my_bmp.width
+    # i_h = my_bmp.height
+    print_pattern(my_pattern,my_bmp.height,my_bmp.width)
+
+    # print(my_pattern)
