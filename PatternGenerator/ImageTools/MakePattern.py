@@ -83,6 +83,15 @@ def print_pattern(patt,i_h,i_w):
         rowdata = ""
         for s in range(i_w):
             rowdata += my_pattern[(r*i_w) + s]
+            # want to break things up into groups of 5 stitches - this works, sort of, but needs to happen later in processing
+            # to prevent odd ends if rows don't happen to be in multiple of 5
+            if s > 0 and (s+1)%5==0: rowdata += " "
+        if r%2 == 1:
+            # if a wrongside row, need to reverse string sequence so that correct stitches get made
+            # http://stackoverflow.com/questions/931092/reverse-a-string-in-python
+            rowdata = "odd row:\t" + rowdata[::-1].strip()
+        else:
+            rowdata = "even row:\t" + rowdata
         print(rowdata)
 
 # debugging
