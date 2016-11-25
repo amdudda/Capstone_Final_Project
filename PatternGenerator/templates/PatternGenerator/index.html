@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Knitting Patterns</title>
@@ -8,5 +9,7 @@
     <h1>Knit Knacks</h1>
     <h2>Pattern Database</h2>
     {{ patterns }}
+
+    <img src ="{% static 'images/source/' %}{{mainimg}}" />
 </body>
 </html>
