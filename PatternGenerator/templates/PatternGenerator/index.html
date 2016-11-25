@@ -8,8 +8,9 @@
 <body>
     <h1>Knit Knacks</h1>
     <h2>Pattern Database</h2>
-    {{ patterns }}
 
-    <img src ="{% static 'images/source/' %}{{mainimg}}" />
+    {% for pattern in patterns %}
+        <img src ="{% static 'images/source/' %}{{pattern.filename}}" /> Pattern set #{{pattern.id}}
+    {% endfor %}
 </body>
 </html>

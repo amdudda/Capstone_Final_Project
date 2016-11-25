@@ -9,6 +9,9 @@ class SourceImage(models.Model):
     filename = models.CharField("file name",max_length=200)
     saved = models.DateTimeField("saved date",auto_now_add=True) # auto_now_add sets value to creation time
 
+    def __str__(self):
+        return "Image filename: " + self.filename + ", last saved: " + str(self.saved)
+
 class PatternImage(models.Model):
     # TODO: what do I actually want to store about the bitmaps?
     # patterns can be reconstructed directly from bitmaps... color info, rgb info, all is stored there natively and
