@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Show pattern</title>
+</head>
+<body>
+    <div id="left_pane" style="width:200px;float:left">
+        <h1>This will show the details of the chosen pattern.</h1>
+        <img src="{% static 'images/bitmaps/'%}{{pattern.filename}}" />
+        <i>(Pattern used for this page)</i>
+        <img src="{% static 'images/source/'%}{{pattern.source_id.filename}}" />
+        <i>(The original image used to generate this pattern)</i>
+    </div>
+    <div id="pattern_metadata">
+        Stitches per inch by rows per inch: {{pattern.spi}} x {{pattern.rpi}}
+        Number of colors:
+    </div>
+    <div id="color_block">
+        <h2>There will be a lot of methods crunching data and passing it to this view to be displayed.</h2>
+        This is where a bunch of div containers will show the colors corresponding to the symbols in the pattern.
+    </div>
+    <div id="pattern details">
+        This is where the details of the pattern will display.
+    </div>
+</body>
+</html>

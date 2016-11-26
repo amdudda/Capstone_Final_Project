@@ -22,3 +22,14 @@ def viewpatterns(request,pk):
         'pattern_set': w_patterns
         }
     return render(request,'PatternGenerator/ViewPattern.html',context)
+
+def showpattern(request,pk):
+    '''
+    Handles an http request to display a specific pattern
+    :param request: http request info
+    :param pk: primary key used to identify the corresponding bitmap and generate its pattern
+    :return: render a web page with information about the pattern being requested
+    '''
+    p = PatternImage.objects.get(id=pk)
+    context = { 'pattern' : p }
+    return render(request,'PatternGenerator/ShowPattern.html',context)
