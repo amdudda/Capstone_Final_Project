@@ -89,9 +89,9 @@ def print_pattern(patt,i_h,i_w):
         if r%2 == 1:
             # if a wrongside row, need to reverse string sequence so that correct stitches get made
             # http://stackoverflow.com/questions/931092/reverse-a-string-in-python
-            rowdata = "odd row:\t" + rowdata[::-1].strip()
+            rowdata = "purl row:\t" + rowdata[::-1].strip()
         else:
-            rowdata = "even row:\t" + rowdata
+            rowdata = "knit row:\t" + rowdata
         print(rowdata)
 
 # debugging
