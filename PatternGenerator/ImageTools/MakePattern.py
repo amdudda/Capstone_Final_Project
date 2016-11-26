@@ -96,10 +96,10 @@ def print_pattern(patt,i_h,i_w):
 
 # debugging
 if __name__ == "__main__":
-    test_img = '../static/images/source/mapleleaves.jpg'
+    test_img = '../static/images/source/2016-11-18-12-51_sunflowers-1719119_150.jpg'
     # test_src = Image.open(test_img)
-    my_bmp = image2bitmap(test_img,farben=2)
-    my_bmp.save("../static/images/bitmaps/test2.bmp")
+    my_bmp = image2bitmap(test_img,farben=4)
+    my_bmp.save("../static/images/bitmaps/sunflower2.bmp")
     my_pixels = get_pixels(my_bmp)
     my_colorlist = get_unique_colors(my_pixels)
     print(my_pixels[:16])
