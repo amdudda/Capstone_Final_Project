@@ -9,20 +9,27 @@
     <div id="left_pane" style="width:200px;float:left">
         <h1>This will show the details of the chosen pattern.</h1>
         <img src="{% static 'images/bitmaps/'%}{{pattern.filename}}" />
-        <i>(Pattern used for this page)</i>
+        <i>(Pattern used for this page)</i><br/>
         <img src="{% static 'images/source/'%}{{pattern.source_id.filename}}" />
         <i>(The original image used to generate this pattern)</i>
     </div>
-    <div id="pattern_metadata">
-        Stitches per inch by rows per inch: {{pattern.spi}} x {{pattern.rpi}}
-        Number of colors:
-    </div>
-    <div id="color_block">
-        <h2>There will be a lot of methods crunching data and passing it to this view to be displayed.</h2>
-        This is where a bunch of div containers will show the colors corresponding to the symbols in the pattern.
-    </div>
-    <div id="pattern details">
-        This is where the details of the pattern will display.
+    <div id="pattern_container">
+        <h2 id="pageheader">There will be a lot of methods crunching data and passing it to this view to be displayed.</h2>
+        <div id="pattern_metadata">
+            Stitches per inch by rows per inch: {{pattern.spi}} x {{pattern.rpi}}
+            Number of colors: {{colors}}
+        </div>
+        <div id="color_block">
+            This is where a bunch of div containers will show the colors corresponding to the symbols in the pattern.
+            <!-- This shows how to access values in key-value pairs --  https://code.djangoproject.com/ticket/12486-->
+            {% for colorinfo,symbol in map_symbols_to_colors.items %}
+                {{colorinfo}} {{symbol}}
+            {% endfor %}
+        </div>
+        <div id="pattern details">
+            This is where the details of the pattern will display.
+            {{pattern_string}}
+        </div>
     </div>
 </body>
 </html>

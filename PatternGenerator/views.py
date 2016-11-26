@@ -37,11 +37,9 @@ def showpattern(request,pk):
     p = PatternImage.objects.get(id=pk)
 
     # then extract the rest of our data for the page based on the image's filename
-    # fname = os.path.join('static','images','bitmaps',p.filename)
-    # my_bmp = Image.open(fname)
     context = MakePattern.get_image_data(p.filename)
 
-    # and also append our pattern object to the data so we can get some info frm that, too...
+    # and also append our pattern object to the data so we can get some info from that, too...
     context['pattern'] = p
 
     # finally, render the page with all that data!

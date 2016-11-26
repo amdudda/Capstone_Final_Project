@@ -141,9 +141,9 @@ if __name__ == "__main__":
     cd_keys = my_colordict.keys()
     for k in cd_keys:
         print(str(k) + ": " + my_colordict[k])
-    my_pattern = make_pattern(my_pixels,my_colordict)
+    # my_pattern = make_pattern(my_pixels,my_colordict)
     # i_w = my_bmp.width
     # i_h = my_bmp.height
-    print_pattern(my_pattern,my_bmp.height,my_bmp.width)
+    # print_pattern(my_pattern,my_bmp.height,my_bmp.width)
 
     # print(my_pattern)
