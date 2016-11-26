@@ -8,10 +8,14 @@ def index(request):
     context = { 'patterns':patterns }
     return render(request,'PatternGenerator/index.html',context)
 
-def viewpatterns(request):
-    # need to get patterns for requested image
-    # TODO for now we're not fussing with extracting selected image, just prove we can pass data to this view.
-    w = SourceImage.objects.get(id=1)
+def viewpatterns(request,pk):
+    '''
+    Handles an http request and accepts a primary key value
+    :param request: http request
+    :param pk: primary key of parent image extracted from the http request
+    :return: render a web page listing all available patterns for a particular image
+    '''
+    w = SourceImage.objects.get(id=pk)
     w_patterns = PatternImage.objects.filter(source_id=w)
     context = {
         'parent_img': w,
