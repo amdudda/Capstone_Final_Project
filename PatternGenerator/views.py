@@ -14,7 +14,7 @@ def viewpatterns(request):
     w = SourceImage.objects.get(id=1)
     w_patterns = PatternImage.objects.filter(source_id=w)
     context = {
-        'pattern_id': w.id,
+        'parent_img': w,
         'pattern_set': w_patterns
         }
     return render(request,'PatternGenerator/ViewPattern.html',context)
