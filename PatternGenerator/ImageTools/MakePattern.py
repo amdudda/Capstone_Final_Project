@@ -94,6 +94,37 @@ def print_pattern(patt,i_h,i_w):
             rowdata = "knit row:\t" + rowdata
         print(rowdata)
 
+def get_image_data(filename):
+    '''
+    crunch a bunch of numbers and return a dictionary of data that can be appended to a context object.
+    :param filename: the filename of the bitmap used to generate the pattern's image
+    :return: dictionary containing number of colors, color data, and a pattern string.
+    '''
+    # load the image we want to work with
+    import os
+    # fpath = "../static/images/bitmaps/" +
+    fpath = os.path.join('PatternGenerator','static','images','bitmaps', filename)
+    bmp_img = Image.open(fpath)
+
+    # collect data about the image
+
+    # bmp_img = my_bmp.convert(mode="RGB")
+    my_pixels = get_pixels(bmp_img)
+    my_colorlist = get_unique_colors(my_pixels)
+    my_colordict = colors_to_symbols(my_colorlist)
+    my_pattern = make_pattern(my_pixels, my_colordict)
+
+    # compile the info into a dictionary object
+    pattern_data = {
+        'colors' : len(my_colorlist),
+        'map_symbols_to_colors': my_colordict,
+        'pattern_string': my_pattern
+    }
+
+    #return the data
+    return pattern_data
+#end get_image_data
+
 # debugging
 if __name__ == "__main__":
     test_img = '../static/images/source/2016-11-18-12-51_sunflowers-1719119_150.jpg'
