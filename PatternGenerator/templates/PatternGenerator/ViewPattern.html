@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
-    <title>Pattern Number {{pattern_id}}</title>
+    <title>Pattern Set {{parent_img.id}}</title>
 </head>
 <body>
-    <h2>Patterns for the selcted pattern appear here</h2>
-
-    {% for pattern in pattern_set %}
-        Pattern image goes here
-        <hr/>
-    {% endfor %}
+    <div id="left_pane" style="width:200px;float:left">
+        <h2>Patterns for Pattern Set number {{parent_img.id}}</h2>
+        <img src ="{% static 'images/source/' %}{{parent_img.filename}}" /><br>
+        <i>(original image)</i>
+    </div>
+    <div id="patterns_container">
+        <h2>Here are the available patterns for this image:</h2>
+        {% for pattern in pattern_set %}
+            <img src ="{% static 'images/bitmaps/' %}{{pattern.filename}}" /> Pattern #{{pattern.id}}
+            <hr/>
+        {% endfor %}
+    </div>
 </body>
 </html>
