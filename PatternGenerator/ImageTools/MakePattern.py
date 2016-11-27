@@ -60,9 +60,33 @@ def colors_to_symbols(colors):
     :param colors: a list of rgb tuples
     :return: a dictionary mapping rgb tuples to a symbol
     '''
+    import webcolors
+    # calculate nearest web-safe color and store a micro-array with symbol and css name
+    # http://stackoverflow.com/questions/9694165/convert-rgb-color-to-english-color-name-like-green#9694246
+
+    def closest_colour(requested_colour):
+        min_colours = {}
+        for key, name in webcolors.css3_hex_to_names.items():
+            r_c, g_c, b_c = webcolors.hex_to_rgb(key)
+            rd = (r_c - requested_colour[0]) ** 2
+            gd = (g_c - requested_colour[1]) ** 2
+            bd = (b_c - requested_colour[2]) ** 2
+            min_colours[(rd + gd + bd)] = name
+        return min_colours[min(min_colours.keys())]
+
+    def get_colour_name(requested_colour):
+        try:
+            closest_name = actual_name = webcolors.rgb_to_name(requested_colour)
+        except ValueError:
+            closest_name = closest_colour(requested_colour)
+            actual_name = None
+        return actual_name, closest_name
+
     colormap = {}
     for i in range(len(colors)):
-        colormap[colors[i]] = SYMBOLS[i]
+        color_name, nearest_webcolor = get_colour_name(colors[i])
+        # color_name = webcolors.rgb_to_name(nearest_webcolor)
+        colormap[colors[i]] = [SYMBOLS[i],nearest_webcolor]
     return colormap
 
 def make_pattern(img_pixels,color_key):
@@ -75,7 +99,7 @@ def make_pattern(img_pixels,color_key):
     output = ''
     for c in img_pixels:
         symbol = color_key[c]
-        output += symbol
+        output += symbol[0]
     return output
 
 def pattern_as_array(patt,i_h,i_w):
