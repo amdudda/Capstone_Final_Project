@@ -60,9 +60,33 @@ def colors_to_symbols(colors):
     :param colors: a list of rgb tuples
     :return: a dictionary mapping rgb tuples to a symbol
     '''
+    import webcolors
+    # calculate nearest web-safe color and store a micro-array with symbol and css name
+    # http://stackoverflow.com/questions/9694165/convert-rgb-color-to-english-color-name-like-green#9694246
+
+    def closest_colour(requested_colour):
+        min_colours = {}
+        for key, name in webcolors.css3_hex_to_names.items():
+            r_c, g_c, b_c = webcolors.hex_to_rgb(key)
+            rd = (r_c - requested_colour[0]) ** 2
+            gd = (g_c - requested_colour[1]) ** 2
+            bd = (b_c - requested_colour[2]) ** 2
+            min_colours[(rd + gd + bd)] = name
+        return min_colours[min(min_colours.keys())]
+
+    def get_colour_name(requested_colour):
+        try:
+            closest_name = actual_name = webcolors.rgb_to_name(requested_colour)
+        except ValueError:
+            closest_name = closest_colour(requested_colour)
+            actual_name = None
+        return actual_name, closest_name
+
     colormap = {}
     for i in range(len(colors)):
-        colormap[colors[i]] = SYMBOLS[i]
+        color_name, nearest_webcolor = get_colour_name(colors[i])
+        # color_name = webcolors.rgb_to_name(nearest_webcolor)
+        colormap[colors[i]] = [SYMBOLS[i],nearest_webcolor]
     return colormap
 
 def make_pattern(img_pixels,color_key):
@@ -75,14 +99,15 @@ def make_pattern(img_pixels,color_key):
     output = ''
     for c in img_pixels:
         symbol = color_key[c]
-        output += symbol
+        output += symbol[0]
     return output
 
-def print_pattern(patt,i_h,i_w):
+def pattern_as_array(patt,i_h,i_w):
+    pattern_arr = []
     for r in range(i_h):
         rowdata = ""
         for s in range(i_w):
-            rowdata += my_pattern[(r*i_w) + s]
+            rowdata += patt[(r*i_w) + s]
             # want to break things up into groups of 5 stitches - this works, sort of, but needs to happen later in processing
             # to prevent odd ends if rows don't happen to be in multiple of 5
             if s > 0 and (s+1)%5==0: rowdata += " "
@@ -92,7 +117,41 @@ def print_pattern(patt,i_h,i_w):
             rowdata = "purl row:\t" + rowdata[::-1].strip()
         else:
             rowdata = "knit row:\t" + rowdata
-        print(rowdata)
+        # print(rowdata)
+        pattern_arr.append(rowdata)
+    return pattern_arr
+
+def get_image_data(filename):
+    '''
+    crunch a bunch of numbers and return a dictionary of data that can be appended to a context object.
+    :param filename: the filename of the bitmap used to generate the pattern's image
+    :return: dictionary containing number of colors, color data, and a pattern string.
+    '''
+    # load the image we want to work with
+    import os
+    # fpath = "../static/images/bitmaps/" +
+    fpath = os.path.join('PatternGenerator','static','images','bitmaps', filename)
+    bmp_img = Image.open(fpath)
+
+    # collect data about the image
+
+    # bmp_img = my_bmp.convert(mode="RGB")
+    my_pixels = get_pixels(bmp_img)
+    my_colorlist = get_unique_colors(my_pixels)
+    my_colordict = colors_to_symbols(my_colorlist)
+    patt_string = make_pattern(my_pixels, my_colordict)
+    my_pattern = pattern_as_array(patt_string,bmp_img.height,bmp_img.width)
+
+    # compile the info into a dictionary object
+    pattern_data = {
+        'colors' : len(my_colorlist),
+        'map_symbols_to_colors': my_colordict,
+        'pattern_array': my_pattern
+    }
+
+    #return the data
+    return pattern_data
+#end get_image_data
 
 # debugging
 if __name__ == "__main__":
@@ -110,9 +169,9 @@ if __name__ == "__main__":
     cd_keys = my_colordict.keys()
     for k in cd_keys:
         print(str(k) + ": " + my_colordict[k])
-    my_pattern = make_pattern(my_pixels,my_colordict)
+    # my_pattern = make_pattern(my_pixels,my_colordict)
     # i_w = my_bmp.width
     # i_h = my_bmp.height
-    print_pattern(my_pattern,my_bmp.height,my_bmp.width)
+    # print_pattern(my_pattern,my_bmp.height,my_bmp.width)
 
     # print(my_pattern)

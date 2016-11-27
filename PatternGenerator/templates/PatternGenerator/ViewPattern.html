@@ -14,7 +14,8 @@
     <div id="patterns_container">
         <h2>Here are the available patterns for this image:</h2>
         {% for pattern in pattern_set %}
-            <img src ="{% static 'images/bitmaps/' %}{{pattern.filename}}" /> Pattern #{{pattern.id}}
+            <img src ="{% static 'images/bitmaps/' %}{{pattern.filename}}" />
+            <a href="{% url 'showpattern' pattern.id%}">Pattern #{{pattern.id}}</a>
             <hr/>
         {% endfor %}
     </div>
