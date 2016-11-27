@@ -78,11 +78,12 @@ def make_pattern(img_pixels,color_key):
         output += symbol
     return output
 
-def print_pattern(patt,i_h,i_w):
+def pattern_as_array(patt,i_h,i_w):
+    pattern_arr = []
     for r in range(i_h):
         rowdata = ""
         for s in range(i_w):
-            rowdata += my_pattern[(r*i_w) + s]
+            rowdata += patt[(r*i_w) + s]
             # want to break things up into groups of 5 stitches - this works, sort of, but needs to happen later in processing
             # to prevent odd ends if rows don't happen to be in multiple of 5
             if s > 0 and (s+1)%5==0: rowdata += " "
@@ -92,7 +93,9 @@ def print_pattern(patt,i_h,i_w):
             rowdata = "purl row:\t" + rowdata[::-1].strip()
         else:
             rowdata = "knit row:\t" + rowdata
-        print(rowdata)
+        # print(rowdata)
+        pattern_arr.append(rowdata)
+    return pattern_arr
 
 def get_image_data(filename):
     '''
@@ -112,13 +115,14 @@ def get_image_data(filename):
     my_pixels = get_pixels(bmp_img)
     my_colorlist = get_unique_colors(my_pixels)
     my_colordict = colors_to_symbols(my_colorlist)
-    my_pattern = make_pattern(my_pixels, my_colordict)
+    patt_string = make_pattern(my_pixels, my_colordict)
+    my_pattern = pattern_as_array(patt_string,bmp_img.height,bmp_img.width)
 
     # compile the info into a dictionary object
     pattern_data = {
         'colors' : len(my_colorlist),
         'map_symbols_to_colors': my_colordict,
-        'pattern_string': my_pattern
+        'pattern_array': my_pattern
     }
 
     #return the data

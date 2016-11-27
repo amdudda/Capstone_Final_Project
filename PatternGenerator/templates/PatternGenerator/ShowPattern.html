@@ -6,22 +6,21 @@
     <title>Show pattern</title>
 </head>
 <body>
-    <div id="left_pane" style="width:200px;float:left;">
-        <h1>This will show the details of the chosen pattern.</h1>
-        <img src="{% static 'images/bitmaps/'%}{{pattern.filename}}" />
+    <aside id="left_pane" style="width:200px;float:left;padding-right:20px;">
+        <h1>Pattern id #{{pattern.id}}</h1>
+        <img src="{% static 'images/bitmaps/'%}{{pattern.filename}}" /> <br/>
         <i>(Pattern used for this page)</i><br/>
-        <img src="{% static 'images/source/'%}{{pattern.source_id.filename}}" />
+        <img src="{% static 'images/source/'%}{{pattern.source_id.filename}}" /> <br/>
         <i>(The original image used to generate this pattern)</i>
-    </div>
-    <div id="pattern_container">
-        <h2 id="pageheader">There will be a lot of methods crunching data and passing it to this view to be displayed.</h2>
-        <div id="pattern_metadata">
-            Stitches per inch by rows per inch: {{pattern.spi}} x {{pattern.rpi}}<br>
-            Number of colors: {{colors}}
+        <div style="margin-top:20px;">
+        <b>Stitches per inch by rows per inch: {{pattern.spi}} x {{pattern.rpi}}<br>
+        Number of colors: {{colors}}</b>
         </div>
+    </aside>
+    <div id="pattern_container" style="">
         <div id="color_block">
             The symbols in the pattern correspond to these color samples:<br/>
-            <!-- This shows how to access values in key-value pairs --  https://code.djangoproject.com/ticket/12486-->
+            {# This shows how to access values in key-value pairs --  https://code.djangoproject.com/ticket/12486 #}
             {% for colorinfo,symbol in map_symbols_to_colors.items %}
                 <div style="width:30px;display:inline-block;border: 1px solid black;">
                     <div style="background-color:rgb{{colorinfo}};height:25px;width:30px;display:inline-block;">
@@ -33,9 +32,14 @@
                     </div>
             {% endfor %}
         </div>
-        <div id="pattern details" style="display:inline-block;word-wrap:break-word">
-            This is where the details of the pattern will display.
-            {{pattern_string}}
+        <div id="pattern details" style="overflow: scroll; white-space: nowrap;">
+            <p>Here is the pattern you requested.  If you are knitting without switching to wrong side, purl rows should be knit.</p>
+            {# outdented to prevent weird layout issues due to pre tag #}
+<pre>
+{% for row in pattern_array %}
+{{row}}
+{% endfor %}
+</pre>
         </div>
     </div>
 </body>
