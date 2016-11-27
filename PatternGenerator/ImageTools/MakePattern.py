@@ -2,6 +2,7 @@
     PIL documentation at http://www.effbot.org/imagingbook/image.htm
 '''
 from PIL import Image
+import webcolors
 
 # static value - an array of possible characters to use as replacements for rgb tuples
 # can't use (, ), or * - they're reserved symbols used for noting repetitions in a pattern
@@ -60,10 +61,21 @@ def colors_to_symbols(colors):
     :param colors: a list of rgb tuples
     :return: a dictionary mapping rgb tuples to a symbol
     '''
-    import webcolors
+    # get_colour_name = get_closest_CSS_color()
+
+    colormap = {}
+    for i in range(len(colors)):
+        cur_color = colors[i]
+        cur_symbol = SYMBOLS[i]
+        nearest_webcolor = get_closest_CSS_color(cur_color)
+        # color_name = webcolors.rgb_to_name(nearest_webcolor)
+        colormap[cur_color] = [cur_symbol, nearest_webcolor]
+    return colormap
+
+
+def get_closest_CSS_color(color_tuple):
     # calculate nearest web-safe color and store a micro-array with symbol and css name
     # http://stackoverflow.com/questions/9694165/convert-rgb-color-to-english-color-name-like-green#9694246
-
     def closest_colour(requested_colour):
         min_colours = {}
         for key, name in webcolors.css3_hex_to_names.items():
@@ -82,12 +94,8 @@ def colors_to_symbols(colors):
             actual_name = None
         return actual_name, closest_name
 
-    colormap = {}
-    for i in range(len(colors)):
-        color_name, nearest_webcolor = get_colour_name(colors[i])
-        # color_name = webcolors.rgb_to_name(nearest_webcolor)
-        colormap[colors[i]] = [SYMBOLS[i],nearest_webcolor]
-    return colormap
+    return get_colour_name(color_tuple)[1]
+
 
 def make_pattern(img_pixels,color_key):
     '''
