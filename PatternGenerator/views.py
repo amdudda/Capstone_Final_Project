@@ -21,7 +21,7 @@ def viewpatterns(request,pk):
         'parent_img': w,
         'pattern_set': w_patterns
         }
-    return render(request,'PatternGenerator/ViewPattern.html',context)
+    return render(request,'PatternGenerator/ViewPatterns.html',context)
 
 def showpattern(request,pk):
     '''
