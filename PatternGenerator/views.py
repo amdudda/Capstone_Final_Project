@@ -44,3 +44,17 @@ def showpattern(request,pk):
 
     # finally, render the page with all that data!
     return render(request,'PatternGenerator/ShowPattern.html',context)
+
+def genpattern(request,pk):
+    '''
+    This will pass a particular image that a user wants to use to create a pattern.
+    :param request: the url request
+    :param pk: the primary key identifying a particular source image
+    :return: render a web page that will let people generate patterns
+    '''
+
+    # grab the image and put it in the context variable
+    context = {'src_img' : SourceImage.objects.get(id=pk)}
+
+    # then render the page
+    return render(request,'PatternGenerator/GeneratePattern.html',context)
