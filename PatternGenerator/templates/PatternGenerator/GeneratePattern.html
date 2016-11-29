@@ -7,7 +7,21 @@
 </head>
 <body>
     <h1>This will be the page on which to generate a pattern.</h1>
-    <h2>Here is a picture to work with:</h2>
+    <h2>Here is the picture you have selected as your starting point:</h2>
     <img src="{% static 'images/source/' %}{{src_img.filename}}"/>
+    <h2>Gauge notes</h2>
+    By default, we assume each starting image has an ideal 10 stitches per inch by 10 rows per inch.  In the real world, that never actually happens.  This program assumes you want to keep the same size image and simply distort the pattern so the end result has the same proportions as the original image.  The process is fairly basic:
+    <ul>
+        <li>If you have a 100 x 100 pixel starting image, 10 stiches by 10 rows per inch yield a 10 inch square pattern.</li>
+        <li>If you declare that you want 5 stitches per inch by 7 rows per inch, this program will generate a 50 pixel wide by 70 pixel high bitmap and create a pattern that will result in a 10 inch by 10 inch finished product.</li>
+        <li>To work from a different starting point, you'll need to rescale your starting image by whatever percentage needed so that it is 10 times as many pixels wide as the number of inches you want the end result to be and upload that before generating a pattern.</li>
+    </ul>
+    <h2>Gauge settings</h2>
+    <p>This is where the form will live: need a box for stitches per inch and rows per inch, plus a target number of colors that defaults to 8.</p>
+    <form name="resizer" action="POST">
+        <label for="spi">Stitches Per Inch</label><input name="spi" type="text" value="10"/><br/>
+        <label for="rpi">Rows Per Inch</label><input name="rpi" type="text" value="10"/><br/>
+        <label for="numcolors">Number of colors</label><input name="numcolors" type="text" value="8"/><br/>
+    </form>
 </body>
 </html>
