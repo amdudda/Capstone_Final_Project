@@ -18,12 +18,11 @@
     </ul>
     <h2>Gauge settings</h2>
     <p>This is where the form will live: need a box for stitches per inch and rows per inch, plus a target number of colors that defaults to 8.</p>
-    <form name="resizer" method="POST" action="{% url 'viewpatterns' src_img.id %}">
+    <form name="resizer" method="POST" action="{% url 'genpatterns' src_img.id %}">
         {% csrf_token %}
         <label for="spi">Stitches Per Inch</label><input name="spi" type="text" value="10" size="3"/><br/>
         <label for="rpi">Rows Per Inch</label><input name="rpi" type="text" value="10" size="3"/><br/>
         <label for="numcolors">Number of colors</label><input name="numcolors" type="text" value="8" size="2"/><br/>
-        <input type="hidden" name="source_id" value="{{src_img.id}}"/>
         <button type="submit">Generate Pattern</button>
     </form>
     {# TODO on form submission, should route to pattern generator and then pass result to ShowPattern page #}

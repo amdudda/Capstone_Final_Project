@@ -53,8 +53,24 @@ def genpattern(request,pk):
     :return: render a web page that will let people generate patterns
     '''
 
-    # grab the image and put it in the context variable
-    context = {'src_img' : SourceImage.objects.get(id=pk)}
+    # GET means they want to fetch an image to work with
+    if request.method == "GET":
+        # grab the image and put it in the context variable
+        context = {'src_img' : SourceImage.objects.get(id=pk)}
 
-    # then render the page
-    return render(request,'PatternGenerator/GeneratePattern.html',context)
+        # then render the page
+        return render(request,'PatternGenerator/GeneratePattern.html',context)
+
+    # POST means they want to generate a pattern
+    if request.method == "POST":
+        r_data = request.POST
+        print(r_data)
+        rpi = r_data['rpi']
+        spi = r_data['spi']
+        num_colors = r_data['numcolors']
+
+        print('rpi %s'% rpi)
+        context = {'src_img': SourceImage.objects.get(id=pk)}
+
+        # till I figure out what the form data looks like, just go back to the generation page
+        return render(request,'PatternGenerator/GeneratePattern.html',context)
