@@ -61,15 +61,15 @@ def genpattern(request,pk):
         # then render the page
         return render(request,'PatternGenerator/GeneratePattern.html',context)
 
-    # POST means they want to generate a pattern
-    if request.method == "POST":
+    # POST means they want to generate a pattern - but let's make sure they've at least PRETENDED to pass a middleware token.
+    if request.method == "POST" and request.POST['csrfmiddlewaretoken']:
         r_data = request.POST
         print(r_data)
         rpi = r_data['rpi']
         spi = r_data['spi']
         num_colors = r_data['numcolors']
+        # print('rpi %s'% rpi)
 
-        print('rpi %s'% rpi)
         context = {'src_img': SourceImage.objects.get(id=pk)}
 
         # till I figure out what the form data looks like, just go back to the generation page
