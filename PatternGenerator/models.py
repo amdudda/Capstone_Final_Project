@@ -18,6 +18,10 @@ class PatternImage(models.Model):
     # would be redundant in the database other than to speed up retrieval.
     filename = models.CharField("file name", max_length=200)
     created = models.DateTimeField("creation date", auto_now_add=True)  # auto_now_add sets value to creation time
-    spi = models.IntegerField("stitches per inch")
-    rpi = models.IntegerField("rows per inch")
+    spi = models.IntegerField("stitches per inch",default=10)
+    rpi = models.IntegerField("rows per inch",default=10)
+    colors = models.IntegerField("colors in pattern",default=16)
     source_id = models.ForeignKey(SourceImage) # links to source image http://stackoverflow.com/questions/14663523/foreign-key-django-model#14663580
+
+    def __str__(self):
+        return self.filename
