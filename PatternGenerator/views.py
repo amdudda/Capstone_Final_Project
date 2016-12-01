@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .models import *
+from .ImageTools import MakePattern
+from os import path
 # Create your views here.
 
 def index(request):
@@ -30,9 +32,6 @@ def showpattern(request,pk):
     :param pk: primary key used to identify the corresponding bitmap and generate its pattern
     :return: render a web page with information about the pattern being requested
     '''
-    from PIL import Image
-    from .ImageTools import MakePattern
-    import os
     # grab the pattern to be used for the image
     p = PatternImage.objects.get(id=pk)
 
@@ -67,10 +66,31 @@ def genpattern(request,pk):
         print(r_data)
         rpi = r_data['rpi']
         spi = r_data['spi']
-        num_colors = r_data['numcolors']
+        num_colors = int(r_data['numcolors'])
         # print('rpi %s'% rpi)
 
-        context = {'src_img': SourceImage.objects.get(id=pk)}
+        '''
+        Here we generate the bitmap, save it, and store the metadata in the database.
+        Pass our settings to our image processor in ImageTools and let it handle the info for us...
+        '''
+        # first get the filepath of the source image
+        src_img = SourceImage.objects.get(id=pk)
+        src_fname = src_img.filename
+        src_fpath = path.join("PatternGenerator","static","images","source",src_fname)
+        # generate file name & path for the bitmap, generate the bitmap, and save it.
+        period = src_fname.rfind(".")
+        src_name = src_fname[:period]
+        src_extenstion = src_fname[period:]
+
+        target_fname = "%s_%sx%sx%s%s"% (src_name,spi,rpi,num_colors,src_extenstion)
+        target_fpath = path.join("PatternGenerator","static","images","bitmaps",target_fname)
+        new_bmp = MakePattern.image2bitmap(src_fpath,num_colors)
+        new_bmp.save(target_fpath)
+        # and create the new record in the database
+        # NOT YET
+
+        # eventually context will actually pass data relevant to the ShowPattern page.
+        context = {'src_img': src_img}
 
         # till I figure out what the form data looks like, just go back to the generation page
         return render(request,'PatternGenerator/GeneratePattern.html',context)
