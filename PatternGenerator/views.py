@@ -67,7 +67,7 @@ def genpattern(request,pk):
         rpi = r_data['rpi']
         spi = r_data['spi']
         num_colors = int(r_data['numcolors'])
-        # print('rpi %s'% rpi)
+        # TODO: disallow creation of duplicate records in db - check that the pattern doesn't already exist.
 
         '''
         Here we generate the bitmap, save it, and store the metadata in the database.
@@ -86,8 +86,14 @@ def genpattern(request,pk):
         target_fpath = path.join("PatternGenerator","static","images","bitmaps",target_fname)
         new_bmp = MakePattern.image2bitmap(src_fpath,num_colors)
         new_bmp.save(target_fpath)
-        # and create the new record in the database
-        # NOT YET
+        #
+        # # and create the new record in the database
+        # new_pattern = PatternImage.objects.create(
+        #     filename=target_fname,
+        #     spi=spi,
+        #     rpi=rpi,
+        #     source_id = src_img
+        # )
 
         # eventually context will actually pass data relevant to the ShowPattern page.
         context = {'src_img': src_img}
