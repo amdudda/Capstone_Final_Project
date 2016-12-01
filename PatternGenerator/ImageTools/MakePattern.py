@@ -163,7 +163,7 @@ def get_image_data(filename):
 
 # debugging
 if __name__ == "__main__":
-    test_img = '../static/images/source/wingedlady.png'
+    test_img = '../static/images/source/woodcarving.jpeg'
     # test_src = Image.open(test_img)
     my_bmp = image2bitmap(test_img,farben=16)
     my_bmp.save("../static/images/bitmaps/wingedlady_5_5_16.bmp")

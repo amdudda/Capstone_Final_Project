@@ -82,18 +82,19 @@ def genpattern(request,pk):
         src_name = src_fname[:period]
         src_extenstion = src_fname[period:]
 
-        target_fname = "%s_%sx%sx%s%s"% (src_name,spi,rpi,num_colors,src_extenstion)
+        target_fname = "%s_%sx%sx%s%s"% (src_name,spi,rpi,num_colors,".bmp")
         target_fpath = path.join("PatternGenerator","static","images","bitmaps",target_fname)
         new_bmp = MakePattern.image2bitmap(src_fpath,num_colors)
         new_bmp.save(target_fpath)
         #
-        # # and create the new record in the database
-        # new_pattern = PatternImage.objects.create(
-        #     filename=target_fname,
-        #     spi=spi,
-        #     rpi=rpi,
-        #     source_id = src_img
-        # )
+        # and create the new record in the database
+        new_pattern = PatternImage.objects.create(
+            filename = target_fname,
+            spi = spi,
+            rpi = rpi,
+            colors = num_colors,
+            source_id = src_img
+        )
 
         # eventually context will actually pass data relevant to the ShowPattern page.
         context = {'src_img': src_img}
