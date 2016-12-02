@@ -24,14 +24,29 @@ to be done in separate utilities: parse stored pattern into human-readable forma
 '''
 
 # TODO : rescale image before converting to bitmap
-def image2bitmap(src,farben=16):
+def image2bitmap(src,spi=10,rpi=10,farben=16):
     '''
     takes an image and returns a bitmap
     :param src: image that PIL.Image can understand and convert to bitmap
     :param farben: number of colors to compress image down to.
     :return: a bitmap image
     '''
+
+    # load the image
     src_img = Image.open(src)
+
+    # figure out how many pixels wide and tall the new image should be
+    current_height = src_img.height
+    current_width = src_img.width
+    ht_rescale_factor = rpi/10  # percent in height change as a decimal
+    wd_rescale_factor = spi/10  # percent in width change as a decimal (1.00 = 100%)
+    target_height = round(current_height * ht_rescale_factor)  # rounded to nearest integer
+    target_width = round(current_width * wd_rescale_factor)  # rounded to nearest integer
+    wxh_tuple = (target_width,target_height)
+
+    # resise the image with default resampling
+    src_img = src_img.resize(wxh_tuple)
+
     bmp_img = src_img.quantize(colors=farben, method=None, kmeans=0, palette=None).convert(mode="RGB")
     return bmp_img
 
@@ -165,8 +180,8 @@ def get_image_data(filename):
 if __name__ == "__main__":
     test_img = '../static/images/source/woodcarving.jpeg'
     # test_src = Image.open(test_img)
-    my_bmp = image2bitmap(test_img,farben=16)
-    my_bmp.save("../static/images/bitmaps/wingedlady_5_5_16.bmp")
+    my_bmp = image2bitmap(test_img,spi=15,rpi=20,farben=8)
+    my_bmp.save("../static/images/bitmaps/wingedlady_15_20_8.bmp")
     my_pixels = get_pixels(my_bmp)
     my_colorlist = get_unique_colors(my_pixels)
     print(my_pixels[:16])

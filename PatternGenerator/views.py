@@ -64,8 +64,8 @@ def genpattern(request,pk):
     if request.method == "POST" and request.POST['csrfmiddlewaretoken']:
         r_data = request.POST
         print(r_data)
-        rpi = r_data['rpi']
-        spi = r_data['spi']
+        rpi = int(r_data['rpi'])
+        spi = int(r_data['spi'])
         num_colors = int(r_data['numcolors'])
         # TODO: disallow creation of duplicate records in db - check that the pattern doesn't already exist.
 
@@ -84,7 +84,7 @@ def genpattern(request,pk):
 
         target_fname = "%s_%sx%sx%s%s"% (src_name,spi,rpi,num_colors,".bmp")
         target_fpath = path.join("PatternGenerator","static","images","bitmaps",target_fname)
-        new_bmp = MakePattern.image2bitmap(src_fpath,num_colors)
+        new_bmp = MakePattern.image2bitmap(src_fpath,spi=spi,rpi=rpi,farben=num_colors)
         new_bmp.save(target_fpath)
         #
         # and create the new record in the database
@@ -97,7 +97,8 @@ def genpattern(request,pk):
         )
 
         # eventually context will actually pass data relevant to the ShowPattern page.
-        context = {'src_img': src_img}
+        # context = {'src_img': src_img}
+        context = { 'pattern': new_pattern }
 
         # till I figure out what the form data looks like, just go back to the generation page
-        return render(request,'PatternGenerator/GeneratePattern.html',context)
+        return render(request,'PatternGenerator/ShowPattern.html',context)
