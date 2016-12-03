@@ -36,11 +36,6 @@ def getFileName(url):
     img_fname = url[index:]
     # get the last 100 characters only, prepend it with a timestamp to ensure high likelihood of unique filenames
     img_fname = img_fname[-100:]
-    # dt = datetime.now()
-    # ts_arr = [dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second]
-    # for el in range(len(ts_arr)):
-    #     ts_arr[el] = str(ts_arr[el])
-    # ts = "_".join(ts_arr) + "_""
     format = "%Y%m%d%H%M%S_"
     ts = time.strftime(format)
     img_fname = ts + img_fname
