@@ -3,14 +3,18 @@
 {% load static %}
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Knit Knacks Image Uploader</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style/style.css' %}" />
 </head>
 <body>
 
 {# for debugging, just send the user back to the main page. #}
-<form action='/' method='post'>{% csrf_token %}
+<form action="{% url 'uploadimage' %}" method='POST'>{% csrf_token %}
     {{ form.as_p }}
     <input type='submit' value='Submit' />
 </form>
+{% if errmsg %}
+    {{ errmsg }}
+{% endif %}
 </body>
 </html>

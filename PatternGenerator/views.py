@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .models import *
-from .ImageTools import MakePattern
+from .ImageTools import MakePattern, ImageValidator, ImageDownloader
 from .forms import UploadURLForm
 from os import path
 import time
@@ -113,8 +113,31 @@ def genpattern(request,pk):
 # end genpattern
 
 def upload_image(request):
+    # modeled on example at http://pythoncentral.io/how-to-use-python-django-forms/
     if request.method == "GET":
         context= {'form' : UploadURLForm() }
-        return render(request,'PatternGenerator/UploadImage.html',context)
     else:
-        return HttpResponseRedirect('/')
+        # A POST request: Handle Form Upload
+        form = UploadURLForm(request.POST)  # Bind data from request.POST to the form's one field
+
+        # If form is valid, start doing data validation
+        if form.is_valid():
+            url = form.cleaned_data['url']
+            # validate that the URL is an image:
+            isImg, ErrMsg = ImageValidator.isImage(url)
+            if not isImg:
+                # oops, bad data, tell the user
+                context = { 'form': form, 'errmsg' : ErrMsg}
+            else:
+                # yay, we seem to have valid data, let's download the image and save it to our database!
+                source_img_filepath = path.join("PatternGenerator","static","images","source")
+                ImageDownloader.FetchImage(url,source_img_filepath)
+                # post = m.Post.objects.create(content=content,
+                #                              created_at=created_at)
+                # return HttpResponseRedirect(reverse('post_detail',
+                #                                     kwargs={'post_id': post.id}))
+                # print("Data is valid!")
+                return HttpResponseRedirect('/')
+            # end if not isImg
+        # end if form.is_valid
+    return render(request, 'PatternGenerator/UploadImage.html', context)

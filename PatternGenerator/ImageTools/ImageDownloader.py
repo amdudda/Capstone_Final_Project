@@ -3,7 +3,7 @@ Downloads images based on a url passed to code.
 WARNING: assumes the url has been vetted by Django form validation.
 '''
 from PIL import Image
-from ImageValidator import isImage, isValidSize
+from .ImageValidator import isImage, isValidSize
 from os import path
 from io import BytesIO
 import time, requests
@@ -24,7 +24,7 @@ def FetchImage(url,directory="."):
         img_fname = getFileName(url)
         img_file_path = path.join(directory,img_fname)
         # now that we have a file name, we need to fetch the image
-        savable_image = download_image(img_file_path, url)
+        savable_image = download_image(url)
         # then we validate that the image's size is small enough to fit in our database before we actually save it
         if isValidSize(savable_image):
             savable_image.save(img_file_path)
