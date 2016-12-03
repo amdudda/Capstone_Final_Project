@@ -14,7 +14,8 @@
         <div class="imagebox">
             <a href="{% url 'viewpatterns' pattern.id %}">
             <img src ="{% static 'images/source/' %}{{pattern.filename}}" /> <br/>
-            Pattern set #{{pattern.id}}</a>
+            Pattern set #{{pattern.id}}</a><br/>
+            {{pattern.width}}" x {{pattern.height}}"
         </div>
     {% endfor %}
 </body>

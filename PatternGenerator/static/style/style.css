@@ -6,8 +6,15 @@ body {
     display:inline-block;
     vertical-align: top;
     padding: 10px;
+    text-align: center;
     /* border used for container debugging */
     /*border: solid black 1px;*/
+}
+
+.imagebox img {
+    /* constrain image size so we get a neat progression of images*/
+    max-width:125px;
+    max-height: 125px;
 }
 
 aside {
