@@ -17,7 +17,7 @@
         <li>To work from a different starting point, you'll need to rescale your starting image by whatever percentage needed so that it is 10 times as many pixels wide as the number of inches you want the end result to be and upload that before generating a pattern.</li>
     </ul>
     <h2>Gauge settings</h2>
-    <p>This is where the form will live: need a box for stitches per inch and rows per inch, plus a target number of colors that defaults to 8.</p>
+    <p>Use this form to convert the image above to a knitting pattern:</p>
     <form name="resizer" method="POST" action="{% url 'genpatterns' src_img.id %}">
         {% csrf_token %}
         <label for="spi">Stitches Per Inch</label><input name="spi" type="text" value="10" size="3"/><br/>
