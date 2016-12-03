@@ -3,8 +3,9 @@
     this is just my buggy proof of concept code -- I will be recycling this to develop image processing utilitites.
 '''
 from PIL import Image
-
-myimg = Image.open('../static/images/source/2016-11-18-12-51_sunflowers-1719119_150.jpg')
+t_img = '../static/images/source/2016-11-18-12-51_sunflowers-1719119_150.jpg'
+aj = 'http://www.aljazeera.com/mritems/assets/images/aj-logo-lg.png'
+myimg = Image.open(t_img)
 # print(myimg.getdata)
 # myimg = myimg.convert(mode="RGB",colors=8) # compress image down to 16 colors if needed.
 # myimg.convert(colors=2).save("test.bmp")
