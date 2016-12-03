@@ -1,0 +1,52 @@
+body {
+    background-color: aliceblue;
+}
+
+.imagebox {
+    display:inline-block;
+    vertical-align: top;
+    padding: 10px;
+    /* border used for container debugging */
+    /*border: solid black 1px;*/
+}
+
+aside {
+    width:200px;
+    float:left;
+    padding-right:20px;
+}
+
+aside img {
+    max-width : 150px;
+}
+
+#pattern_container {
+
+}
+
+.color-container {
+    width:100px;
+    display:inline-block;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.color-swatch {
+    height:25px;
+    width:30px;
+    display:inline-block;
+}
+
+.color-cssname {
+    font-size: small
+}
+
+#pattern_details {
+    overflow: scroll;
+    white-space: nowrap;
+    height: 400px;
+}
+
+#patterns_container {
+    float:left
+}

@@ -4,15 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Knit Knacks Knitting Patters</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style/style.css' %}" />
 </head>
 <body>
     <h1>Knit Knacks</h1>
     <h2>Pattern Database</h2>
 
     {% for pattern in patterns %}
-        <img src ="{% static 'images/source/' %}{{pattern.filename}}" />
-        <a href="{% url 'viewpatterns' pattern.id %}">Pattern set #{{pattern.id}}</a>
-        <hr />
+        <div class="imagebox">
+            <a href="{% url 'viewpatterns' pattern.id %}">
+            <img src ="{% static 'images/source/' %}{{pattern.filename}}" /> <br/>
+            Pattern set #{{pattern.id}}</a>
+        </div>
     {% endfor %}
 </body>
 </html>

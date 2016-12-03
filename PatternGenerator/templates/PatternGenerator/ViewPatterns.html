@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Pattern Set {{parent_img.id}}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style/style.css' %}" />
 </head>
 <body >
-    <aside id="left_pane" style="width:200px;height:100%;float:left">
+    <aside >
         <h2>Patterns for Pattern Set number {{parent_img.id}}</h2>
         <a href="{% static 'images/source/' %}{{parent_img.filename}}">
-            <img src ="{% static 'images/source/' %}{{parent_img.filename}}" width="150px"/><br>
+            <img src ="{% static 'images/source/' %}{{parent_img.filename}}" /><br>
         </a>
         <i>(clickable original image)</i><br/>
         <p>
@@ -18,7 +19,7 @@
         </p>
 
     </aside>
-    <div id="patterns_container" style="float:left">
+    <div id="patterns_container">
         <h2>Here are the available patterns for this image:</h2>
         {% if pattern_set %}
             {% for pattern in pattern_set %}

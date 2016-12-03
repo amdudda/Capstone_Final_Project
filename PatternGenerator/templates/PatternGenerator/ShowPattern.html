@@ -4,41 +4,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Show pattern</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style/style.css' %}" />
 </head>
 <body>
-    <aside id="left_pane" style="width:200px;float:left;padding-right:20px;">
+    <aside>
         <h1>Pattern id #{{pattern.id}}</h1>
         <img src="{% static 'images/bitmaps/'%}{{pattern.filename}}" /> <br/>
         <i>(Pattern used for this page)</i><br/>
         <img src="{% static 'images/source/'%}{{pattern.source_id.filename}}" /> <br/>
         <i>(The original image used to generate this pattern)</i>
-        <div style="margin-top:20px;">
-        <b>Stitches per inch by rows per inch: {{pattern.spi}} x {{pattern.rpi}}<br>
-        Number of colors: {{colors}}</b>
-        </div>
+        <p> <b>Stitches per inch by rows per inch: {{pattern.spi}} x {{pattern.rpi}}<br>
+        Number of colors: {{colors}}</b> </p>
     </aside>
-    <div id="pattern_container" style="">
+    <div id="pattern_container">
         <div id="color_block">
             The symbols in the pattern correspond to these color samples.  (The names are calculated from the nearest match
             in a list of standardized CSS color names.)<br/>
             {# This shows how to access values in key-value pairs --  https://code.djangoproject.com/ticket/12486 #}
             {% for colorinfo,symbol in map_symbols_to_colors.items %}
-                <div style="width:100px;display:inline-block;border: 1px solid black;text-align: center;">
-                    <div style="background-color:rgb{{colorinfo}};height:25px;width:30px;display:inline-block;">
+                <div class="color-container">
+                    <div class="color-swatch" style="background-color:rgb{{colorinfo}};">
                         &nbsp;
                     </div><br/>
                         {% for val in symbol %}
                             {% if val|length == 1 %}
                                 {{val}}<br/>
                             {% else %}
-                                <span style="font-size: small">{{val}}</span>
+                                <span class="color-cssname">{{val}}</span>
                             {% endif %}
                         {% endfor %}
                     </div>
             {% endfor %}
         </div>
-        <div id="pattern details" style="overflow: scroll; white-space: nowrap;height: 400px;">
-            <p>Here is the pattern you requested.  If you are knitting without switching to wrong side, purl rows should be knit.</p>
+        <p>Here is the pattern you requested.  If you are knitting without switching to wrong side, purl rows should be knit.</p>
+        <div id="pattern_details" style="">
+
             {# outdented to prevent weird layout issues due to pre tag #}
 <pre>
 {% for row in pattern_array %}
