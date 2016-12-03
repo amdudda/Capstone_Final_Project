@@ -25,7 +25,7 @@ def isImage(url):
     if not valid_url_extension(url):
         return (False, "The file does not appear to have a valid file extension")
     elif not valid_url_mimetype(url):
-        return (False, "The URL's header's mimetype is not 'image'.")
+        return (False, "The URL's mimetype information is not consistent with an image file.")
     elif not image_exists(url):
         return (False, "The image does not appear to exist on the server.")
     else:
@@ -38,9 +38,10 @@ def isImage(url):
 # AMD: vets that the url appears to tpoint to a valid file type extension.
 def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):
     # http://stackoverflow.com/a/10543969/396300
+    url=url.lower()  # AMD set url to lowercase b/c extension validity is not case-sensitive
     return any([url.endswith(e) for e in extension_list])
 
-# checks the mimetype metadata
+# checks the mimetype metadata - not sure what the point is if it passes known good file extensions with invalid mimetypes?
 def valid_url_mimetype(url, mimetype_list=VALID_IMAGE_MIMETYPES):
     # http://stackoverflow.com/a/10543969/396300
     mimetype, encoding = mimetypes.guess_type(url)
@@ -57,8 +58,8 @@ def image_exists(url): #domain, path):
     #AMD: need to parse out domain and path.  https://docs.python.org/2/library/urlparse.html
     parsed_url = urlparse(url)
     domain,path = urlparse(url).netloc, urlparse(url).path
-    print(domain)
-    print(path)
+    # print(domain)
+    # print(path)
 
     # AMD: then back to borrowed code
     try:
@@ -74,11 +75,14 @@ def image_exists(url): #domain, path):
 
 # debugging
 if __name__ == "__main__":
-    bad_ext = "file.ico"
-    malicious_ext = "file.exe"
-    bad_mimetype = "http://entropymine.com/jason/testbed/mime/oct/file.png"  #TODO: this test fails
-    file_dne = "http://pixabay.com/zzz.jpg"
-    really_an_image = "http://www.aljazeera.com/mritems/assets/images/aj-logo-lg.png"
-    test_set = [bad_ext,malicious_ext,bad_mimetype,file_dne,really_an_image]
-    for test in test_set:
-        print(isImage(test))
+    test_set = {
+        'bad_ext' : "file.ico",
+        'malicious_ext' : "file.exe",
+        'bad_mimetype' : "http://entropymine.com/jason/testbed/mime/oct/file.png",
+        'file_dne' : "http://pixabay.com/zzz.jpg",
+        'really_an_image' : "http://www.aljazeera.com/mritems/assets/images/aj-logo-lg.png",
+    }
+    # test_set = [bad_ext,malicious_ext,bad_mimetype,file_dne,really_an_image]
+    for key in test_set:
+        print(key, isImage(test_set[key]))
+
