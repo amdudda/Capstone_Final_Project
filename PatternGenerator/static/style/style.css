@@ -47,12 +47,7 @@ aside img {
     height: 400px;
 }
 
-#patterns_container {
-    float:left;
-}
-
-
-#generator-main-container {
+#patterns_container, #generator-main-container {
     float:left;
     position: absolute;
     left: 220px;

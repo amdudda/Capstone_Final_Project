@@ -12,9 +12,12 @@
         <img src="{% static 'images/bitmaps/'%}{{pattern.filename}}" /> <br/>
         <i>(Pattern used for this page)</i><br/>
         <img src="{% static 'images/source/'%}{{pattern.source_id.filename}}" /> <br/>
-        <i>(The original image used to generate this pattern)</i>
-        <p> <b>Stitches per inch by rows per inch: {{pattern.spi}} x {{pattern.rpi}}<br>
-        Number of colors: {{colors}}</b> </p>
+        <a href="{% url 'viewpatterns' pattern.source_id.id %}">Go back to the original image used to generate this pattern.</a>
+        <p> <b>
+            {{pattern.spi}} stitches per inch<br/>
+            {{pattern.rpi}} rows per inch <br/>
+             {{colors}} colors
+        </b> </p>
     </aside>
     <div id="pattern_container">
         <div id="color_block">
