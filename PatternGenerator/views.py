@@ -8,7 +8,7 @@ import time
 # Create your views here.
 
 def index(request):
-    patterns = SourceImage.objects.all()
+    patterns = SourceImage.objects.all().order_by("-saved")
     # context = { 'patterns':'nothing to see here','mainimg':'2016-11-18-12-51_sunflowers-1719119_150.jpg'}
     context = { 'patterns':patterns }
     return render(request,'PatternGenerator/index.html',context)
@@ -21,7 +21,7 @@ def viewpatterns(request,pk):
     :return: render a web page listing all available patterns for a particular image
     '''
     w = SourceImage.objects.get(id=pk)
-    w_patterns = PatternImage.objects.filter(source_id=w)
+    w_patterns = PatternImage.objects.filter(source_id=w).order_by("-created")
     context = {
         'parent_img': w,
         'pattern_set': w_patterns
