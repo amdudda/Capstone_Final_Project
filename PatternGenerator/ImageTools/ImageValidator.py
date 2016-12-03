@@ -42,6 +42,7 @@ def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):
     return any([url.endswith(e) for e in extension_list])
 
 # checks the mimetype metadata - not sure what the point is if it passes known good file extensions with invalid mimetypes?
+# TODO: create something that truly does defend against invalid MIME types.
 def valid_url_mimetype(url, mimetype_list=VALID_IMAGE_MIMETYPES):
     # http://stackoverflow.com/a/10543969/396300
     mimetype, encoding = mimetypes.guess_type(url)
