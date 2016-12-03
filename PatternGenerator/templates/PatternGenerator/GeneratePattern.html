@@ -4,27 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Knit Knacks Pattern Generator</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style/style.css' %}" />
 </head>
 <body>
-    <h1>This will be the page on which to generate a pattern.</h1>
-    <h2>Here is the picture you have selected as your starting point:</h2>
-    <img src="{% static 'images/source/' %}{{src_img.filename}}"/>
-    <h2>Gauge notes</h2>
-    By default, we assume each starting image has an ideal 10 stitches per inch by 10 rows per inch.  In the real world, that never actually happens.  This program assumes you want to keep the same size image and simply distort the pattern so the end result has the same proportions as the original image.  The process is fairly basic:
-    <ul>
-        <li>If you have a 100 x 100 pixel starting image, 10 stiches by 10 rows per inch yield a 10 inch square pattern.</li>
-        <li>If you declare that you want 5 stitches per inch by 7 rows per inch, this program will generate a 50 pixel wide by 70 pixel high bitmap and create a pattern that will result in a 10 inch by 10 inch finished product.</li>
-        <li>To work from a different starting point, you'll need to rescale your starting image by whatever percentage needed so that it is 10 times as many pixels wide as the number of inches you want the end result to be and upload that before generating a pattern.</li>
-    </ul>
-    <h2>Gauge settings</h2>
-    <p>Use this form to convert the image above to a knitting pattern:</p>
-    <form name="resizer" method="POST" action="{% url 'genpatterns' src_img.id %}">
-        {% csrf_token %}
-        <label for="spi">Stitches Per Inch</label><input name="spi" type="text" value="10" size="3"/><br/>
-        <label for="rpi">Rows Per Inch</label><input name="rpi" type="text" value="10" size="3"/><br/>
-        <label for="numcolors">Number of colors</label><input name="numcolors" type="text" value="8" size="2"/><br/>
-        <button type="submit">Generate Pattern</button>
-    </form>
-    {# TODO on form submission, should route to pattern generator and then pass result to ShowPattern page #}
+    <aside>
+        <h2>Here is the picture you have selected as your starting point:</h2>
+        <img src="{% static 'images/source/' %}{{src_img.filename}}"/>
+        <p>
+            This image is nn pixels wide and nn pixels high.  Using our baseline of 10 pixels per inch, that makes this image
+            nn inches wide by nn inches high.
+        </p>
+    </aside>
+    <div id="generator-main-container">
+        <h1>Generate a New Pattern!</h1>
+        <h2>Gauge notes</h2>
+        By default, we assume each starting image has an ideal 10 stitches per inch by 10 rows per inch.  In the real world, that never actually happens.  This program assumes you want to keep the same size image and simply distort the pattern so the end result has the same proportions as the original image.  The process is fairly basic:
+        <ul>
+            <li>If you have a 100 x 100 pixel starting image, 10 stiches by 10 rows per inch yield a 10 inch square pattern.</li>
+            <li>If you declare that you want 5 stitches per inch by 7 rows per inch, this program will generate a 50 pixel wide by 70 pixel high bitmap and create a pattern that will result in a 10 inch by 10 inch finished product.</li>
+            <li>To work from a different starting point, you'll need to rescale your starting image by whatever percentage needed so that it is 10 times as many pixels wide as the number of inches you want the end result to be and upload that before generating a pattern.</li>
+        </ul>
+        <h2>Gauge settings</h2>
+        <p>Use this form to convert the image above to a knitting pattern:</p>
+        <form name="resizer" method="POST" action="{% url 'genpatterns' src_img.id %}">
+            {% csrf_token %}
+            <label for="spi">Stitches Per Inch</label><input name="spi" type="text" value="10" size="3"/><br/>
+            <label for="rpi">Rows Per Inch</label><input name="rpi" type="text" value="10" size="3"/><br/>
+            <label for="numcolors">Number of colors</label><input name="numcolors" type="text" value="8" size="2"/><br/>
+            <button type="submit">Generate Pattern</button>
+        </form>
+        {# TODO on form submission, should route to pattern generator and then pass result to ShowPattern page #}
+    </div>
 </body>
 </html>

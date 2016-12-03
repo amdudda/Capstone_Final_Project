@@ -48,5 +48,12 @@ aside img {
 }
 
 #patterns_container {
-    float:left
+    float:left;
+}
+
+
+#generator-main-container {
+    float:left;
+    position: absolute;
+    left: 220px;
 }
