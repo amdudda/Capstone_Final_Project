@@ -11,8 +11,7 @@
         <h2>Here is the picture you have selected as your starting point:</h2>
         <img src="{% static 'images/source/' %}{{src_img.filename}}"/>
         <p>
-            This image is nn pixels wide and nn pixels high.  Using our baseline of 10 pixels per inch, that makes this image
-            nn inches wide by nn inches high.
+            Originally uploaded on {{src_img.saved}}.
         </p>
     </aside>
     <div id="generator-main-container">

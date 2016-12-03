@@ -1,7 +1,10 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from .models import *
 from .ImageTools import MakePattern
 from os import path
+import time
+
 # Create your views here.
 
 def index(request):
@@ -100,5 +103,9 @@ def genpattern(request,pk):
         # context = {'src_img': src_img}
         context = { 'pattern': new_pattern }
 
-        # till I figure out what the form data looks like, just go back to the generation page
-        return render(request,'PatternGenerator/ShowPattern.html',context)
+        # let's send the user to the new pattern after a wait of a couple of seconds to give the system a moment
+        # to save the image
+        time.sleep(4)
+        # return render(request,'PatternGenerator/ShowPattern.html',context)
+        url = "/ShowPattern/" + str(new_pattern.id)
+        return HttpResponseRedirect(url)
