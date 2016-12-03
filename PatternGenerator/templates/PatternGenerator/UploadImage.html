@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{# for debugging, just send the user back to the main page. #}
+<form action='/' method='post'>{% csrf_token %}
+    {{ form.as_p }}
+    <input type='submit' value='Submit' />
+</form>
+</body>
+</html>

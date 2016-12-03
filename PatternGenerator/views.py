@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .models import *
 from .ImageTools import MakePattern
+from .forms import UploadURLForm
 from os import path
 import time
 
@@ -109,3 +110,11 @@ def genpattern(request,pk):
         # return render(request,'PatternGenerator/ShowPattern.html',context)
         url = "/ShowPattern/" + str(new_pattern.id)
         return HttpResponseRedirect(url)
+# end genpattern
+
+def upload_image(request):
+    if request.method == "GET":
+        context= {'form' : UploadURLForm() }
+        return render(request,'PatternGenerator/UploadImage.html',context)
+    else:
+        return HttpResponseRedirect('/')
