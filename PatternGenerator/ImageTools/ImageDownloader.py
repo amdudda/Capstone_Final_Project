@@ -4,7 +4,7 @@ WARNING: assumes the url has been vetted by Django form validation.
 '''
 from PIL import Image
 from datetime import datetime
-from .ImageValidator import isImage
+from ImageValidator import isImage
 
 def FetchImage(url,directory="."):
     '''
@@ -21,9 +21,12 @@ def FetchImage(url,directory="."):
         # let's establish the image filename and storage location
         index = url.rfind('/') + 1
         img_fname = url[index:]
-        img_fname = img_fname[:-100] # get the last 100 characters only, prepend it with a timestamp to ensure high likelihood of unique filenames
-        ts_tuple = (datetime.year , datetime.month , datetime.day , datetime.hour , datetime.minute , datetime.second)
-        ts = ts_tuple.join("_")
+        img_fname = img_fname[-100:] # get the last 100 characters only, prepend it with a timestamp to ensure high likelihood of unique filenames
+        dt = datetime.now()
+        ts_arr = [dt.year , dt.month , dt.day , dt.hour , dt.minute , dt.second]
+        for el in range(len(ts_arr)):
+            ts_arr[el] = str(ts_arr[el])
+        ts = "_".join(ts_arr) + "_"
         img_fname = ts + img_fname
         print(img_fname)
         return True
