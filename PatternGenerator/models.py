@@ -7,6 +7,8 @@ from django.db import models
 class SourceImage(models.Model):
     # this stores data bout the source image
     filename = models.CharField("file name",max_length=200)
+    width = models.IntegerField("image width in pixels",default=0)
+    height = models.IntegerField("image height in pixels",default=0)
     saved = models.DateTimeField("saved date",auto_now_add=True) # auto_now_add sets value to creation time
 
     def __str__(self):
