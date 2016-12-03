@@ -23,10 +23,13 @@ def FetchImage(url,directory="."):
         # let's establish the image filename and storage location
         img_fname = getFileName(url)
         img_file_path = path.join(directory,img_fname)
-        # now that we have a file name, we need to fetch and save the image
+        # now that we have a file name, we need to fetch the image
         savable_image = download_image(img_file_path, url)
+        # then we validate that the image's size is small enough to fit in our database before we actually save it
         if isValidSize(savable_image):
             savable_image.save(img_file_path)
+            # return the file name so the file's metadata can be stored in the database
+            # TODO - do we need to return height/width metadata, too???
             return img_fname
         else:
             return False

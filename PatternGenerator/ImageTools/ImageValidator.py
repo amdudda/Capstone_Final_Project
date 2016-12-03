@@ -15,7 +15,7 @@ VALID_IMAGE_EXTENSIONS = [
     ".tiff",
 ]
 VALID_IMAGE_MIMETYPES = [ "image" ]
-VALID_SIZE = 9999
+VALID_SIZE = 9999  # this is a reasonableness check, as no one will want to knit a 1000-inch wide item!!!
 
 def isImage(url):
     '''
