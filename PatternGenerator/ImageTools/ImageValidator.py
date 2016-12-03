@@ -1,5 +1,6 @@
-import mimetypes,httplib2
+from PIL import Image
 from urllib.parse import urlparse
+import mimetypes,httplib2
 
 # cribbed from https://timmyomahony.com/blog/upload-and-validate-image-from-url-in-django/
 
@@ -14,6 +15,7 @@ VALID_IMAGE_EXTENSIONS = [
     ".tiff",
 ]
 VALID_IMAGE_MIMETYPES = [ "image" ]
+VALID_SIZE = 9999
 
 def isImage(url):
     '''
@@ -34,12 +36,13 @@ def isImage(url):
 # end isImage
 
 
-# supporting methods for isImage()
+''' SUPPORTING METHODS FOR isImage() '''
 # AMD: vets that the url appears to tpoint to a valid file type extension.
 def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):
     # http://stackoverflow.com/a/10543969/396300
     url=url.lower()  # AMD set url to lowercase b/c extension validity is not case-sensitive
     return any([url.endswith(e) for e in extension_list])
+# end valid_url_extension
 
 # checks the mimetype metadata - not sure what the point is if it passes known good file extensions with invalid mimetypes?
 # TODO: create something that truly does defend against invalid MIME types.
@@ -51,6 +54,7 @@ def valid_url_mimetype(url, mimetype_list=VALID_IMAGE_MIMETYPES):
         return any([mimetype.startswith(m) for m in mimetype_list])
     else:
         return False
+# end valid_url_mimetype
 
 # verifies the file actually exists on the target server.
 def image_exists(url): #domain, path):
@@ -72,9 +76,16 @@ def image_exists(url): #domain, path):
         # print(e)
         return False
     return response.status == 200
+# end image_exists
 
+''' OTHER VALIDATORS '''
+def isValidSize(image):
+    # validates that the image is smaller or equal to maximum size.
+    img_width = image.width
+    img_height = image.height
+    return (img_width <= VALID_SIZE and img_height <= VALID_SIZE)
 
-# debugging
+''' DEBUGGING '''
 if __name__ == "__main__":
     test_set = {
         'bad_ext' : "file.ico",

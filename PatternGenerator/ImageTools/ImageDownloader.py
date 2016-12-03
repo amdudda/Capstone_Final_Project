@@ -3,7 +3,7 @@ Downloads images based on a url passed to code.
 WARNING: assumes the url has been vetted by Django form validation.
 '''
 from PIL import Image
-from ImageValidator import isImage
+from ImageValidator import isImage, isValidSize
 from os import path
 from io import BytesIO
 import time, requests
@@ -24,20 +24,28 @@ def FetchImage(url,directory="."):
         img_fname = getFileName(url)
         img_file_path = path.join(directory,img_fname)
         # now that we have a file name, we need to fetch and save the image
-        save_image(img_file_path, url)
-        return img_fname
+        savable_image = download_image(img_file_path, url)
+        if isValidSize(savable_image):
+            savable_image.save(img_file_path)
+            return img_fname
+        else:
+            return False
     else:
         return False
 
 
-def save_image(img_file_path, url):
+def download_image(url):
+    '''
+    pulls an image off the internet and returns an Image object
+    :param url: URL where the image resides
+    :return:  Python Pillow (PIL) Image object
+    '''
     # see http://stackoverflow.com/questions/24920728/convert-pillow-image-into-stringio#24920879 for leads on how to do this -- that url plus some other wrangling led me to use BytesIO to read and save the image.
     response = requests.get(url).content
     # print(response)
     retrieved_img = BytesIO(response)
     # then convert it into something savable and save it
-    saveable_img = Image.open(retrieved_img)
-    saveable_img.save(img_file_path)
+    return Image.open(retrieved_img)
 
 
 def getFileName(url):
