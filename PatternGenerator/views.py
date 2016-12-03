@@ -131,13 +131,23 @@ def upload_image(request):
             else:
                 # yay, we seem to have valid data, let's download the image and save it to our database!
                 source_img_filepath = path.join("PatternGenerator","static","images","source")
-                ImageDownloader.FetchImage(url,source_img_filepath)
-                # post = m.Post.objects.create(content=content,
-                #                              created_at=created_at)
-                # return HttpResponseRedirect(reverse('post_detail',
-                #                                     kwargs={'post_id': post.id}))
-                # print("Data is valid!")
-                return HttpResponseRedirect('/')
+                saved_image = ImageDownloader.FetchImage(url,source_img_filepath)
+                if saved_image:
+                    # yay we successfully saved the image and got a tuple of data back.
+                    # save the image data to the database!
+                    new_img = SourceImage.objects.create(
+                        filename=saved_image[0],
+                        width=saved_image[1],
+                        height=saved_image[2]
+                    )
+                    return HttpResponseRedirect('/')
+                    # return render(request,'PatternGenerator/index.html')
+                else:
+                    # OOOOOOPS - we failed to download and save after all those checks.  Tell the user that.
+                    context = {
+                        'form': form,
+                        'errmsg' : "We were unable to save the image.  No additional error information is available at this time."}
+                # end if saved_image
             # end if not isImg
         # end if form.is_valid
     return render(request, 'PatternGenerator/UploadImage.html', context)

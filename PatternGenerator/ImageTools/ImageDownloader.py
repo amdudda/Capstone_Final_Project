@@ -13,7 +13,7 @@ def FetchImage(url,directory="."):
     Downloads and saves an image
     :param url: The URL of the image to be downloaded
     :param directory: the directory where the image is to be saved.
-    :return: file name if successful, False otherwise.
+    :return: a tuple containing (file name, image width, image height) if successful, False otherwise.
     '''
 
     # before we do anything else, make sure the url really does look like an image file.
@@ -29,8 +29,10 @@ def FetchImage(url,directory="."):
         if isValidSize(savable_image):
             savable_image.save(img_file_path)
             # return the file name so the file's metadata can be stored in the database
-            # TODO - do we need to return height/width metadata, too???
-            return img_fname
+            # return height/width metadata, too
+            w = savable_image.width / 10
+            h = savable_image.height / 10
+            return (img_fname,w,h)
         else:
             return False
     else:
