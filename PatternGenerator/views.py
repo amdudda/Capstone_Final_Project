@@ -126,7 +126,7 @@ def upload_image(request):
     else:
         # A POST request: Handle Form Upload
         form = UploadURLForm(request.POST)  # Bind data from request.POST to the form's one field
-
+        context = { 'form': form , 'errmsg' : "err, what?"}
         # If form is valid, start doing data validation
         if form.is_valid():
             url = form.cleaned_data['url']
@@ -159,7 +159,11 @@ def upload_image(request):
                     context = {
                         'form': form,
                         'errmsg' : "We were unable to save the image.  No additional error information is available at this time."}
+                    return render(request, 'PatternGenerator/UploadImage.html', context)
                 # end if saved_image
             # end if not isImg
         # end if form.is_valid
+    # if you try to pass 'http://blarg.mp3' it returns an array of errors not dealt with above; let's cope with them here...
+    if (form.errors):
+        context['errmsg'] = form.errors
     return render(request, 'PatternGenerator/UploadImage.html', context)
