@@ -9,8 +9,12 @@ import time
 # Create your views here.
 
 def index(request):
+    '''
+    Returns the main page of the site
+    :param request: the originating URL request
+    :return: the index page of the site
+    '''
     patterns = SourceImage.objects.all().order_by("-saved")
-    # context = { 'patterns':'nothing to see here','mainimg':'2016-11-18-12-51_sunflowers-1719119_150.jpg'}
     context = { 'patterns':patterns }
     return render(request,'PatternGenerator/index.html',context)
 
@@ -101,7 +105,7 @@ def create_new_pattern(src_img, num_colors=16, rpi=10, spi=10):
     # generate file name & path for the bitmap, generate the bitmap, and save it.
     period = src_fname.rfind(".")
     src_name = src_fname[:period]
-    src_extenstion = src_fname[period:]
+    # src_extension = src_fname[period:]
     target_fname = "%s_%sx%sx%s%s" % (src_name, spi, rpi, num_colors, ".bmp")
     target_fpath = path.join("PatternGenerator", "static", "images", "bitmaps", target_fname)
     new_bmp = MakePattern.image2bitmap(src_fpath, spi=spi, rpi=rpi, farben=num_colors)
@@ -162,8 +166,9 @@ def upload_image(request):
                     return render(request, 'PatternGenerator/UploadImage.html', context)
                 # end if saved_image
             # end if not isImg
+        elif (form.errors):
+            # if you try to pass 'http://blarg.mp3' it returns an array of errors not dealt with above; let's cope with them here...  it's not the prettiest, but it at least tells the user *something* went wrong!
+            context['errmsg'] = form.errors
         # end if form.is_valid
-    # if you try to pass 'http://blarg.mp3' it returns an array of errors not dealt with above; let's cope with them here...
-    if (form.errors):
-        context['errmsg'] = form.errors
     return render(request, 'PatternGenerator/UploadImage.html', context)
+# end upload_image
