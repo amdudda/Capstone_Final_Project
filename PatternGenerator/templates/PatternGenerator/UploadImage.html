@@ -11,10 +11,12 @@
 {# for debugging, just send the user back to the main page. #}
 <form action="{% url 'uploadimage' %}" method='POST'>{% csrf_token %}
     {{ form.as_p }}
-    <input type='submit' value='Submit' onclick="alert('Please wait a few seconds while we trye to download the image and create its default pattern.')"/>
+    <input type='submit' value='Submit' />
+    {% if errmsg %}
+        <p class="errtext">{{ errmsg }}</p>
+    {% endif %}
 </form>
-{% if errmsg %}
-    {{ errmsg }}
-{% endif %}
+<p>Please wait a few seconds after clicking [submit] for the program to download the image and create its default pattern.</p>
+
 </body>
 </html>

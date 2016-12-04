@@ -59,3 +59,7 @@ aside img {
     position: absolute;
     left: 220px;
 }
+
+.errtext {
+    font-weight:bold;
+}
