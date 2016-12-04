@@ -28,6 +28,7 @@ def viewpatterns(request,pk):
         'pattern_set': w_patterns
         }
     return render(request,'PatternGenerator/ViewPatterns.html',context)
+# end viewpatterns
 
 def showpattern(request,pk):
     '''
@@ -47,6 +48,7 @@ def showpattern(request,pk):
 
     # finally, render the page with all that data!
     return render(request,'PatternGenerator/ShowPattern.html',context)
+# end showpattern
 
 def genpattern(request,pk):
     '''
@@ -79,29 +81,9 @@ def genpattern(request,pk):
         '''
         # first get the filepath of the source image
         src_img = SourceImage.objects.get(id=pk)
-        src_fname = src_img.filename
-        src_fpath = path.join("PatternGenerator","static","images","source",src_fname)
-        # generate file name & path for the bitmap, generate the bitmap, and save it.
-        period = src_fname.rfind(".")
-        src_name = src_fname[:period]
-        src_extenstion = src_fname[period:]
+        new_pattern = create_new_pattern(src_img, num_colors, rpi, spi)
 
-        target_fname = "%s_%sx%sx%s%s"% (src_name,spi,rpi,num_colors,".bmp")
-        target_fpath = path.join("PatternGenerator","static","images","bitmaps",target_fname)
-        new_bmp = MakePattern.image2bitmap(src_fpath,spi=spi,rpi=rpi,farben=num_colors)
-        new_bmp.save(target_fpath)
-        #
-        # and create the new record in the database
-        new_pattern = PatternImage.objects.create(
-            filename = target_fname,
-            spi = spi,
-            rpi = rpi,
-            colors = num_colors,
-            source_id = src_img
-        )
-
-        # eventually context will actually pass data relevant to the ShowPattern page.
-        # context = {'src_img': src_img}
+        # pass data relevant to the ShowPattern page.
         context = { 'pattern': new_pattern }
 
         # let's send the user to the new pattern after a wait of a couple of seconds to give the system a moment
@@ -110,7 +92,32 @@ def genpattern(request,pk):
         # return render(request,'PatternGenerator/ShowPattern.html',context)
         url = "/ShowPattern/" + str(new_pattern.id)
         return HttpResponseRedirect(url)
+
 # end genpattern
+
+def create_new_pattern(src_img, num_colors=16, rpi=10, spi=10):
+    src_fname = src_img.filename
+    src_fpath = path.join("PatternGenerator", "static", "images", "source", src_fname)
+    # generate file name & path for the bitmap, generate the bitmap, and save it.
+    period = src_fname.rfind(".")
+    src_name = src_fname[:period]
+    src_extenstion = src_fname[period:]
+    target_fname = "%s_%sx%sx%s%s" % (src_name, spi, rpi, num_colors, ".bmp")
+    target_fpath = path.join("PatternGenerator", "static", "images", "bitmaps", target_fname)
+    new_bmp = MakePattern.image2bitmap(src_fpath, spi=spi, rpi=rpi, farben=num_colors)
+    new_bmp.save(target_fpath)
+    #
+    # and create the new record in the database
+    new_pattern = PatternImage.objects.create(
+        filename=target_fname,
+        spi=spi,
+        rpi=rpi,
+        colors=num_colors,
+        source_id=src_img
+    )
+    return new_pattern
+# end create_new_pattern
+
 
 def upload_image(request):
     # modeled on example at http://pythoncentral.io/how-to-use-python-django-forms/
@@ -132,6 +139,7 @@ def upload_image(request):
                 # yay, we seem to have valid data, let's download the image and save it to our database!
                 source_img_filepath = path.join("PatternGenerator","static","images","source")
                 saved_image = ImageDownloader.FetchImage(url,source_img_filepath)
+                time.sleep(4) # wait for image file to finish writing
                 if saved_image:
                     # yay we successfully saved the image and got a tuple of data back.
                     # save the image data to the database!
@@ -140,8 +148,12 @@ def upload_image(request):
                         width=saved_image[1],
                         height=saved_image[2]
                     )
+                    # next, we create the default 10x10 "inch", 16 color bitmap for the image
+                    new_pattern = create_new_pattern(src_img=new_img)
+                    time.sleep(1)
+                    # then redirect the user to view the new image and its default pattern
+                    redirect_url = "/ViewPatterns/" + str(new_img.id)
                     return HttpResponseRedirect('/')
-                    # return render(request,'PatternGenerator/index.html')
                 else:
                     # OOOOOOPS - we failed to download and save after all those checks.  Tell the user that.
                     context = {

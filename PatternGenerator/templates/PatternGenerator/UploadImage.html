@@ -11,7 +11,7 @@
 {# for debugging, just send the user back to the main page. #}
 <form action="{% url 'uploadimage' %}" method='POST'>{% csrf_token %}
     {{ form.as_p }}
-    <input type='submit' value='Submit' />
+    <input type='submit' value='Submit' onclick="alert('Please wait a few seconds while we trye to download the image and create its default pattern.')"/>
 </form>
 {% if errmsg %}
     {{ errmsg }}

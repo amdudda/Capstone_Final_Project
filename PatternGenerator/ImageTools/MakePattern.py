@@ -27,7 +27,7 @@ to be done in separate utilities: parse stored pattern into human-readable forma
 def image2bitmap(src,spi=10,rpi=10,farben=16):
     '''
     takes an image and returns a bitmap
-    :param src: image that PIL.Image can understand and convert to bitmap
+    :param src: path to image that PIL.Image can understand and convert to bitmap
     :param farben: number of colors to compress image down to.
     :return: a bitmap image
     '''
