@@ -18,7 +18,7 @@ class PatternImage(models.Model):
     # patterns can be reconstructed directly from bitmaps... color info, rgb info, all is stored there natively and
     # would be redundant in the database other than to speed up retrieval.  But some stuff I do want to store so I
     # don't have to brute-force calculate them every time I load an image!
-    filename = models.CharField("file name", max_length=200)
+    filename = models.CharField("file name", max_length=200,unique=True)
     created = models.DateTimeField("creation date", auto_now_add=True)  # auto_now_add sets value to creation time
     spi = models.IntegerField("stitches per inch",default=10)
     rpi = models.IntegerField("rows per inch",default=10)
