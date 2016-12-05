@@ -23,7 +23,6 @@ to be done in separate utilities: parse stored pattern into human-readable forma
 
 '''
 
-# TODO : rescale image before converting to bitmap
 def image2bitmap(src,spi=10,rpi=10,farben=16):
     '''
     takes an image and returns a bitmap

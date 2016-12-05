@@ -77,7 +77,6 @@ def genpattern(request,pk):
         rpi = int(r_data['rpi'])
         spi = int(r_data['spi'])
         num_colors = int(r_data['numcolors'])
-        # TODO: disallow creation of duplicate records in db - check that the pattern doesn't already exist.
 
         '''
         Here we generate the bitmap, save it, and store the metadata in the database.
@@ -100,26 +99,34 @@ def genpattern(request,pk):
 # end genpattern
 
 def create_new_pattern(src_img, num_colors=16, rpi=10, spi=10):
+
     src_fname = src_img.filename
     src_fpath = path.join("PatternGenerator", "static", "images", "source", src_fname)
     # generate file name & path for the bitmap, generate the bitmap, and save it.
     period = src_fname.rfind(".")
     src_name = src_fname[:period]
-    # src_extension = src_fname[period:]
     target_fname = "%s_%sx%sx%s%s" % (src_name, spi, rpi, num_colors, ".bmp")
     target_fpath = path.join("PatternGenerator", "static", "images", "bitmaps", target_fname)
-    new_bmp = MakePattern.image2bitmap(src_fpath, spi=spi, rpi=rpi, farben=num_colors)
-    new_bmp.save(target_fpath)
-    #
-    # and create the new record in the database
-    new_pattern = PatternImage.objects.create(
-        filename=target_fname,
-        spi=spi,
-        rpi=rpi,
-        colors=num_colors,
-        source_id=src_img
-    )
-    return new_pattern
+
+    # Disallow creation of duplicate records in db - check that the pattern doesn't already exist.  Pattern filenames should be unique, so let's just go with that.  Desired behavior would be to just return the already-existing image...
+    # if the pattern already exists, return that, otherwise create it.
+    try:
+        # first record, Just In Case duplicates somehow have happened...
+        new_pattern = PatternImage.objects.get(filename=target_fname)
+    except:
+        new_bmp = MakePattern.image2bitmap(src_fpath, spi=spi, rpi=rpi, farben=num_colors)
+        new_bmp.save(target_fpath)
+
+        # and create the new record in the database
+        new_pattern = PatternImage.objects.create(
+            filename=target_fname,
+            spi=spi,
+            rpi=rpi,
+            colors=num_colors,
+            source_id=src_img
+        )
+    finally:
+        return new_pattern
 # end create_new_pattern
 
 
