@@ -159,6 +159,7 @@ def upload_image(request):
                         width=saved_image[1],
                         height=saved_image[2]
                     )
+                    # TODO This should be queued or in callbacks instead of pausing the code to let the image be saved.
                     # next, we create the default 10x10 "inch", 16 color bitmap for the image
                     new_pattern = create_new_pattern(src_img=new_img)
                     time.sleep(1)
