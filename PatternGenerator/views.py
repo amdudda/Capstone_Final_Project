@@ -4,7 +4,7 @@ from .models import *
 from .ImageTools import MakePattern, ImageValidator, ImageDownloader
 from .forms import UploadURLForm
 from os import path
-import time
+import time, threading
 
 # Create your views here.
 
@@ -149,7 +149,12 @@ def upload_image(request):
             else:
                 # yay, we seem to have valid data, let's download the image and save it to our database!
                 source_img_filepath = path.join("PatternGenerator","static","images","source")
-                saved_image = ImageDownloader.FetchImage(url,source_img_filepath)
+                # TODO This should be queued or in callbacks instead of pausing the code to let the image be saved.
+                sv_im = threading.Thread(name='save_image',target=(ImageDownloader.FetchImage(url,source_img_filepath,)))
+                # THE ABOVE DOESN'T WORK :(
+                saved_image = sv_im.start()
+                sv_im.join()
+                # saved_image = ImageDownloader.FetchImage(url,source_img_filepath)
                 time.sleep(4) # wait for image file to finish writing
                 if saved_image:
                     # yay we successfully saved the image and got a tuple of data back.
@@ -159,7 +164,6 @@ def upload_image(request):
                         width=saved_image[1],
                         height=saved_image[2]
                     )
-                    # TODO This should be queued or in callbacks instead of pausing the code to let the image be saved.
                     # next, we create the default 10x10 "inch", 16 color bitmap for the image
                     new_pattern = create_new_pattern(src_img=new_img)
                     time.sleep(1)
