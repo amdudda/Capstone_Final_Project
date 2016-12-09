@@ -69,7 +69,11 @@ def genpattern(request,pk):
     # GET means they want to fetch an image to work with
     if request.method == "GET":
         # grab the image and put it in the context variable
-        context = {'src_img' : SourceImage.objects.get(id=pk)}
+        context = {
+            'src_img' : SourceImage.objects.get(id=pk),
+            'title': "Knit Knacks Pattern Generator",
+            'subhead' : "Generate a New Pattern!",
+        }
 
         # then render the page
         return render(request,'PatternGenerator/GeneratePattern.html',context)
@@ -137,7 +141,7 @@ def create_new_pattern(src_img, num_colors=16, rpi=10, spi=10):
 def upload_image(request):
     # modeled on example at http://pythoncentral.io/how-to-use-python-django-forms/
     if request.method == "GET":
-        context= {'form' : UploadURLForm() }
+        context= {'form' : UploadURLForm(), 'title': "Knit Knacks Image Uploader", 'subhead': "Image Uploader" }
     else:
         # A POST request: Handle Form Upload
         form = UploadURLForm(request.POST)  # Bind data from request.POST to the form's one field

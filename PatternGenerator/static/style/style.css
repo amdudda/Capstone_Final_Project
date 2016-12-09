@@ -82,3 +82,8 @@ aside img {
 .errtext {
     font-weight:bold;
 }
+
+#uploader_content {
+    margin-top:25px;
+    clear: both;
+}

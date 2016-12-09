@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
 {% load static %}
-<head>
-    <meta charset="UTF-8">
-    <title>Knit Knacks Pattern Generator</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'style/style.css' %}" />
-</head>
-<body>
-    <aside>
+{% include "./base.html" %}
+{% block content %}
+<aside>
         <h2>Here is the picture you have selected as your starting point:</h2>
         <img src="{% static 'images/source/' %}{{src_img.filename}}"/>
         <p>
@@ -15,7 +9,6 @@
         </p>
     </aside>
     <div id="generator-main-container">
-        <h1>Generate a New Pattern!</h1>
         <h2>Gauge notes</h2>
         By default, we assume each starting image has an ideal 10 stitches per inch by 10 rows per inch.  In the real world, that never actually happens.  This program assumes you want to keep the same size image and simply distort the pattern so the end result has the same proportions as the original image.  The process is fairly basic:
         <ul>
@@ -24,7 +17,7 @@
             <li>To work from a different starting point, you'll need to rescale your starting image by whatever percentage needed so that it is 10 times as many pixels wide as the number of inches you want the end result to be and upload that before generating a pattern.</li>
         </ul>
         <h2>Gauge settings</h2>
-        <p>Use this form to convert the image above to a knitting pattern:</p>
+        <p>Use this form to convert the image at left to a knitting pattern:</p>
         <form name="resizer" method="POST" action="{% url 'genpatterns' src_img.id %}">
             {% csrf_token %}
             <label for="spi">Stitches Per Inch</label><input name="spi" type="text" value="10" size="3"/><br/>
@@ -32,7 +25,6 @@
             <label for="numcolors">Number of colors</label><input name="numcolors" type="text" value="8" size="2"/><br/>
             <button type="submit">Generate Pattern</button>
         </form>
-        {# TODO on form submission, should route to pattern generator and then pass result to ShowPattern page #}
+        {# on form submission, route to pattern generator and then pass result to ShowPattern page #}
     </div>
-</body>
-</html>
+{% endblock %}
