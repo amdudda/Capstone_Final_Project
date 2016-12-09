@@ -94,7 +94,7 @@ aside img {
     height: 1.5em;
     left: 0px;
     top: 0px;
-    padding-left:5px;
+    padding:2px 0 0px 5px;
     background-color: #0f0800;
     color: aliceblue;
     font-variant: small-caps;
