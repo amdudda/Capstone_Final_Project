@@ -7,6 +7,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style/style.css' %}" />
 </head>
 <body>
+<div id="navbar">
+    Navigation: <a href="/">Main page</a>
+</div>
 <header>
     <h1>Knit Knacks</h1>
     <h2>{{ subhead }}</h2>
@@ -14,5 +17,6 @@
 </header>
 {% block content %}
 {% endblock %}
+
 </body>
 </html>

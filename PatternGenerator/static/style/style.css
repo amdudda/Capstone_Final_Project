@@ -87,3 +87,19 @@ aside img {
     margin-top:25px;
     clear: both;
 }
+
+#navbar {
+    position: absolute;
+    width: 100%;
+    height: 1.5em;
+    left: 0px;
+    top: 0px;
+    padding-left:5px;
+    background-color: #0f0800;
+    color: aliceblue;
+    font-variant: small-caps;
+}
+
+#navbar a {
+    color: aliceblue;
+}
