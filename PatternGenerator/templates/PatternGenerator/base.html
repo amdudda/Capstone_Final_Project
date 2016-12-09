@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style/style.css' %}" />
+</head>
+<body>
+<header>
+    <h1>Knit Knacks</h1>
+    <h2>{{ subhead }}</h2>
+    <hr>
+</header>
+{% block content %}
+{% endblock %}
+</body>
+</html>

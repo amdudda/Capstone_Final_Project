@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
 {% load static %}
-<head>
-    <meta charset="UTF-8">
-    <title>Show pattern</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'style/style.css' %}" />
-</head>
-<body>
+{# Show a specific pattern #}
+{% include './base.html' %}
+{% block content %}
     <aside>
         <h1>Pattern id #{{pattern.id}}</h1>
         <img src="{% static 'images/bitmaps/'%}{{pattern.filename}}" /> <br/>
-        <i>(Pattern used for this page)</i><br/>
+        <i>Above is the modified image used to generate this pattern.  Below is the original image.</i><br/>
         <img src="{% static 'images/source/'%}{{pattern.source_id.filename}}" /> <br/>
         <a href="{% url 'viewpatterns' pattern.source_id.id %}">Go back to the original image used to generate this pattern.</a>
         <p> <b>
@@ -24,8 +19,9 @@
     </aside>
     <div id="pattern_container">
         <div id="color_block">
-            The symbols in the pattern correspond to these color samples.  (The names are calculated from the nearest match
-            in a list of standardized CSS color names.)<br/>
+            <br/>
+            <p>The symbols in the pattern correspond to these color samples.  (The names are calculated from the nearest match
+            in a list of standardized CSS color names.)</p>
             {# This shows how to access values in key-value pairs --  https://code.djangoproject.com/ticket/12486 #}
             {% for colorinfo,symbol in map_symbols_to_colors.items %}
                 <div class="color-container">
@@ -53,5 +49,4 @@
 </pre>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}

@@ -15,7 +15,7 @@ def index(request):
     :return: the index page of the site
     '''
     patterns = SourceImage.objects.all().order_by("-saved")
-    context = { 'patterns':patterns }
+    context = { 'patterns':patterns, 'title': "Knit Knacks Pattern Database", 'subhead':"Pattern Database" }
     return render(request,'PatternGenerator/index.html',context)
 
 def viewpatterns(request,pk):
@@ -29,7 +29,9 @@ def viewpatterns(request,pk):
     w_patterns = PatternImage.objects.filter(source_id=w).order_by("-created")
     context = {
         'parent_img': w,
-        'pattern_set': w_patterns
+        'pattern_set': w_patterns,
+        'title': "Knit Knacks Pattern Set %s" % pk,
+        'subhead': "Patterns Set %s" % pk,
         }
     return render(request,'PatternGenerator/ViewPatterns.html',context)
 # end viewpatterns
@@ -49,6 +51,8 @@ def showpattern(request,pk):
 
     # and also append our pattern object to the data so we can get some info from that, too...
     context['pattern'] = p
+    context['title'] = "Knit Knacks Pattern #%s"% pk
+    context['subhead'] = 'Pattern ID Number %s' % pk
 
     # finally, render the page with all that data!
     return render(request,'PatternGenerator/ShowPattern.html',context)
@@ -116,7 +120,7 @@ def create_new_pattern(src_img, num_colors=16, rpi=10, spi=10):
     except:
         new_bmp = MakePattern.image2bitmap(src_fpath, spi=spi, rpi=rpi, farben=num_colors)
         new_bmp.save(target_fpath)
-
+        time.sleep(2) # make the program wait for the file to be written
         # and create the new record in the database
         new_pattern = PatternImage.objects.create(
             filename=target_fname,

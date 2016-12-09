@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
 {% load static %}
-<head>
-    <meta charset="UTF-8">
-    <title>Pattern Set {{parent_img.id}}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'style/style.css' %}" />
-</head>
-<body >
+{# show patterns for a specific image #}
+{% include "./base.html" %}
+{% block content %}
     <aside >
         <h2>Patterns for Pattern Set number {{parent_img.id}}</h2>
         <a href="{% static 'images/source/' %}{{parent_img.filename}}">
@@ -32,5 +27,4 @@
             {% endfor %}
         {% endif %}
     </div>
-</body>
-</html>
+{% endblock %}

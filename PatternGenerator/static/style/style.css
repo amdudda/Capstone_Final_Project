@@ -2,6 +2,25 @@ body {
     background-color: aliceblue;
 }
 
+header {
+    clear: both;
+}
+
+header h1 {
+    display:inline-block;
+}
+
+header h2 {
+    display:inline-block;
+    padding-left: 25px;
+    font-style: italic;
+}
+
+header hr {
+    width:90%;
+    float: left;
+}
+
 .imagebox {
     display:inline-block;
     vertical-align: top;
@@ -28,7 +47,7 @@ aside img {
 }
 
 #pattern_container {
-
+    display: block;
 }
 
 .color-container {
