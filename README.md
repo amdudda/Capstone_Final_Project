@@ -17,4 +17,4 @@ The code is written using Python version 3.4 and Django 1.10.3.  Most modules ar
 * Generate cross-stitch patterns. This involves tweaking the current pattern generation module into a new module for cross-stitch and coding a view to create the grid layout.
 * Write a cleanup module to delete files that don't have corresponding database records and database records that don't have corresponding images.
 * Search functionality, so users can search by number of colors, image size, or a particular gauge.
-* Tags for images so users can search by tag.
+* Integrate tags for images so users can search by tag.

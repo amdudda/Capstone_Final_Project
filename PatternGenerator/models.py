@@ -36,3 +36,10 @@ class ImageTags(models.Model):
 
     def __str__(self):
         return self.source_img.filename + ": " + self.tag
+
+    def _img_save_date(self):
+        return self.source_img.saved
+    img_save_date = property('source_img.saved')
+
+    # class Meta:
+    #     ordering = ['img_save_date']

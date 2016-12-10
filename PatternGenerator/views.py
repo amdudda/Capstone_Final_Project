@@ -220,3 +220,19 @@ def about(request):
         'title': "%s Pattern Database" % WEBSITE_NAME,
         'subhead':"A Knack for the Needles"}
     return render(request,'PatternGenerator/about.html',context)
+
+def show_by_tag(request,tag):
+    # takes a tag and shows images associated with that tag
+    my_images = ImageTags.objects.filter(tag=tag)
+    my_images.order_by("-img_save_date")
+    images = []
+    for image in my_images:
+        images.append(image.source_img)
+
+    context = {
+        'title': "%s Pattern Database" % WEBSITE_NAME,
+        'subhead': "Images tagged with '%s'" % tag,
+        'patterns': images
+    }
+
+    return render(request,'PatternGenerator/index.html',context)
