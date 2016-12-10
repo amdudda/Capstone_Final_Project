@@ -30,6 +30,16 @@ def FetchImage(url,directory="."):
             savable_image.save(img_file_path)
             # return the file name so the file's metadata can be stored in the database
             # return height/width metadata, too
+            while True:
+                # check if the file is done writing - don't let code proceed until filewrite is done.
+                try:
+                    # try a quick open-close of the file - there will be an IOError if file still being written
+                    file = open(img_file_path)
+                    file.close()
+                    break
+                except:
+                    print('file still writing')
+                    # pass
             w = savable_image.width / 10
             h = savable_image.height / 10
             return (img_fname,w,h)
@@ -71,4 +81,5 @@ def getFileName(url):
 
 if __name__ == "__main__":
     testurl = 'http://www.aljazeera.com/mritems/assets/images/aj-logo-lg.png'
-    print(FetchImage(testurl))
+    nuther_url = 'https://lisalarter.com/wp-content/uploads/2015/09/Focus-How-To-Prioritize-Complete-Big-Honking-Business-Projects-1200x675.jpg'
+    print(FetchImage(nuther_url))
