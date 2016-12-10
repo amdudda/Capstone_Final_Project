@@ -7,12 +7,19 @@
     {# Just a web form for uploading images from a URL. #}
     <form action="{% url 'uploadimage' %}" method='POST'>{% csrf_token %}
         {{ form.as_p }}
-        <input type='submit' value='Submit' />
+        <input type='submit' value='Submit' onclick="show_wait_msg()"/>
         {% if errmsg %}
             <p class="errtext">{{ errmsg }}</p>
         {% endif %}
     </form>
     <p>Please wait a few seconds after clicking [submit] for the program to download the image and create its default pattern.</p>
     <!-- TODO have a "please wait for file upload" message appear when the user clicks 'submit' -->
+    <p id="please_wait">We are uploading the image now.  You will be redirected to the main page in a few moments.</p>
 </div>
+
+<script language="javascript">
+    function show_wait_msg(){
+        document.getElementById("please_wait").style.visibility = "visible";
+    }
+</script>
 {% endblock %}

@@ -109,3 +109,8 @@ aside img {
     font-size: small;
     padding-right: 5px;
 }
+
+#please_wait {
+    visibility: hidden;
+    font-weight: bold;
+}
