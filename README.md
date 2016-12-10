@@ -12,5 +12,7 @@ The code is written using Python version 3.4 and Django 1.10.3.  Most modules ar
 
 ###Future development
 * Establish user accounts.  This will let me move the file uploads behind a login, so that I can make reasonable attempts at assuring that it's actual human beings doing the file uploads and allow me to track the usernames of the accounts doing the uploads.
-* Allow users to rotate an image during the upload.  This will save users a step in the creation of patterns for banners (e.g. to knit scarves).
+* Allow users to rotate and/or resize an image during the upload.  This will save users some steps in the creation of patterns for banners (e.g. to knit scarves) or getting an image of appropriate pixel width.
+* Generate cross-stitch patterns. This involves tweaking the current pattern generation module into a new module for cross-stitch and coding a view to create the grid layout.
 * Cleanup module to delete files that don't have corresponding database records and database records that don't have corresponding images.
+* Search functionality, so users can search by number of colors, image size, or a particular gauge.

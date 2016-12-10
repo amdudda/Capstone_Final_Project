@@ -204,3 +204,7 @@ def upload_image(request):
         # end if form.is_valid
     return render(request, 'PatternGenerator/UploadImage.html', context)
 # end upload_image
+
+def about(request):
+    context = {'title': "Knit Knacks Pattern Database", 'subhead':"A Knack for the Needles"}
+    return render(request,'PatternGenerator/about.html',context)

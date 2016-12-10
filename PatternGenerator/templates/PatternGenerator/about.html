@@ -1,0 +1,8 @@
+{% load static %}
+{# home page for the site - not sure why I need to load static twice, but... ok,\/\/hatevs #}
+{% include "./base.html" %}
+{% block content %}
+    <p>Hi! I'm <a href="mailto:anna.m.dudda@gmail.com">Anna Dudda</a>. I'm a knitter. I knit. A <i>lot</i>. And sometimes I'll use existing images, convert them to bitmaps, distort as needed to suit my ratio of stitches:rows per inch, and generate a pattern.  In the past I've done this manually, but this site helps automate the process and stores the results in a database that people can browse and use.</p>
+    <p>Right now, the site lets you upload an image from the Web, saves it, and generates a default pattern.  Each pixel of the image corresponds to one stitch in the pattern. The default pattern uses assumes 10 stitches and rows per inch, with 16 colors. This means you will have to find a version of your desired image that has the appropriate size.  Once the image is uploaded and the default pattern is generated, you can start creating your own patterns by supplying your desired gauge and number of colors (16 colors is really A Bit Much&trade; for most knitting patterns).</p>
+    <p>Happy stitching!</p>
+{% endblock %}
