@@ -13,3 +13,4 @@ The code is written using Python version 3.4 and Django 1.10.3.  Most modules ar
 ###Future development
 * Establish user accounts.  This will let me move the file uploads behind a login, so that I can make reasonable attempts at assuring that it's actual human beings doing the file uploads and allow me to track the usernames of the accounts doing the uploads.
 * Allow users to rotate an image during the upload.  This will save users a step in the creation of patterns for banners (e.g. to knit scarves).
+* Cleanup module to delete files that don't have corresponding database records and database records that don't have corresponding images.
