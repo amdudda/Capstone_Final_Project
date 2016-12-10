@@ -124,7 +124,18 @@ def create_new_pattern(src_img, num_colors=16, rpi=10, spi=10):
     except:
         new_bmp = MakePattern.image2bitmap(src_fpath, spi=spi, rpi=rpi, farben=num_colors)
         new_bmp.save(target_fpath)
-        time.sleep(2) # make the program wait for the file to be written
+
+        while True:
+            # check if the file is done writing - don't let code proceed until filewrite is done.
+            try:
+                # try a quick open-close of the file - there will be an IOError if file still being written
+                file = open(target_fpath)
+                file.close()
+                break
+            except:
+                print('file still writing')
+                # pass
+
         # and create the new record in the database
         new_pattern = PatternImage.objects.create(
             filename=target_fname,
@@ -167,10 +178,10 @@ def upload_image(request):
                         width=saved_image[1],
                         height=saved_image[2]
                     )
-                    # TODO This should be queued or in callbacks instead of pausing the code to let the image be saved.
+
                     # next, we create the default 10x10 "inch", 16 color bitmap for the image
                     new_pattern = create_new_pattern(src_img=new_img)
-                    time.sleep(1)
+
                     # then redirect the user to view the new image and its default pattern
                     redirect_url = "/ViewPatterns/" + str(new_img.id)
                     return HttpResponseRedirect('/')
@@ -184,7 +195,12 @@ def upload_image(request):
             # end if not isImg
         elif (form.errors):
             # if you try to pass 'http://blarg.mp3' it returns an array of errors not dealt with above; let's cope with them here...  it's not the prettiest, but it at least tells the user *something* went wrong!
-            context['errmsg'] = form.errors
+            if form.errors['url']:
+                # concatenate the url-related errors into a string and add it to the context dictionary
+                errstring = "; ".join(form.errors['url'])
+                context['errmsg'] = errstring
+            else:
+                context['errmsg'] = "The following error(s) occurred:" + str(form.errors)
         # end if form.is_valid
     return render(request, 'PatternGenerator/UploadImage.html', context)
 # end upload_image
