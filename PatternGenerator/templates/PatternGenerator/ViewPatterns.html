@@ -13,6 +13,12 @@
             Don't see what you're looking for?
             <a href="{% url 'genpatterns' parent_img.id %}">Create a new pattern for this image!</a>
         </p>
+        <div id="tagset">
+            Tags for this image:<br/>
+            {% for tag in parent_img.imagetags_set.all %}
+                <a href="{% url 'tagged' tag.tag %}">{{ tag.tag }}</a>
+            {% endfor %}
+        </div>
     </aside>
     <div id="patterns_container">
         <h2>Here are the available patterns for this image:</h2>

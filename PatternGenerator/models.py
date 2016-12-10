@@ -14,6 +14,10 @@ class SourceImage(models.Model):
     def __str__(self):
         return "Image #%d, filename: %s, saved: %s" % (self.id,self.filename, str(self.saved))
 
+    # def _tag_set(self):
+    #     return self.objects.filter(ImageTags)
+    # tags = property('_tag_set')
+
 class PatternImage(models.Model):
     # patterns can be reconstructed directly from bitmaps... color info, rgb info, all is stored there natively and
     # would be redundant in the database other than to speed up retrieval.  But some stuff I do want to store so I
@@ -37,9 +41,8 @@ class ImageTags(models.Model):
     def __str__(self):
         return self.source_img.filename + ": " + self.tag
 
+    # this lets me sort images by their save date.
     def _img_save_date(self):
         return self.source_img.saved
     img_save_date = property('source_img.saved')
 
-    # class Meta:
-    #     ordering = ['img_save_date']

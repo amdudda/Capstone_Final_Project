@@ -114,3 +114,7 @@ aside img {
     visibility: hidden;
     font-weight: bold;
 }
+
+#tagset {
+    font-size: small;
+}
