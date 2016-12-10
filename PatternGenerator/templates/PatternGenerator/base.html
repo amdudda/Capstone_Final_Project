@@ -8,8 +8,14 @@
 </head>
 <body>
 <div id="navbar">
-    Navigation: <a href="/">Main Page</a> &#8225; <a href="{% url 'uploadimage' %}">Upload an Image</a> &#8225; <a href="{% url 'about' %}">About This Site</a>
-    <div id="copyright">&copy;2016 Knit Knacks</div>
+    Navigation: <a href="/">Main Page</a> &#8225;
+    <a href="{% url 'uploadimage' %}">Upload an Image</a> &#8225;
+    {# If user is viewing patterns for an image, give them the option to create new patterns. #}
+    {% if pattern_set %}
+    <a href="{% url 'genpatterns' parent_img.id %}">Generate New Pattern</a> &#8225;
+    {% endif %}
+    <a href="{% url 'about' %}">About This Site</a>
+    <div id="copyright">&copy;2016 Anna Dudda</div>
 </div>
 <header>
     <h1>Knit Knacks</h1>
