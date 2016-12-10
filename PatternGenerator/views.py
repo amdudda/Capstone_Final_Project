@@ -6,6 +6,9 @@ from .forms import UploadURLForm
 from os import path
 import time
 
+# Global variable for website name so I can change it easily later
+WEBSITE_NAME = "Knit Knacks"
+
 # Create your views here.
 
 def index(request):
@@ -15,7 +18,11 @@ def index(request):
     :return: the index page of the site
     '''
     patterns = SourceImage.objects.all().order_by("-saved")
-    context = { 'patterns':patterns, 'title': "Knit Knacks Pattern Database", 'subhead':"Pattern Database" }
+    context = {
+        'patterns':patterns,
+        'title': " %s Pattern Database" % WEBSITE_NAME,
+        'subhead':"Pattern Database"
+    }
     return render(request,'PatternGenerator/index.html',context)
 
 def viewpatterns(request,pk):
@@ -30,7 +37,7 @@ def viewpatterns(request,pk):
     context = {
         'parent_img': w,
         'pattern_set': w_patterns,
-        'title': "Knit Knacks Patterns",
+        'title': "%s Patterns" % WEBSITE_NAME,
         'subhead': "Pattern Set %s" % pk,
         }
     return render(request,'PatternGenerator/ViewPatterns.html',context)
@@ -51,7 +58,7 @@ def showpattern(request,pk):
 
     # and also append our pattern object to the data so we can get some info from that, too...
     context['pattern'] = p
-    context['title'] = "Knit Knacks Pattern #%s"% pk
+    context['title'] = "%s Pattern #%s"% (WEBSITE_NAME,pk)
     context['subhead'] = 'Pattern ID Number %s' % pk
 
     # finally, render the page with all that data!
@@ -71,7 +78,7 @@ def genpattern(request,pk):
         # grab the image and put it in the context variable
         context = {
             'src_img' : SourceImage.objects.get(id=pk),
-            'title': "Knit Knacks Pattern Generator",
+            'title': "%s Pattern Generator" % WEBSITE_NAME,
             'subhead' : "Generate a New Pattern!",
         }
 
@@ -152,7 +159,10 @@ def create_new_pattern(src_img, num_colors=16, rpi=10, spi=10):
 def upload_image(request):
     # modeled on example at http://pythoncentral.io/how-to-use-python-django-forms/
     if request.method == "GET":
-        context= {'form' : UploadURLForm(), 'title': "Knit Knacks Image Uploader", 'subhead': "Image Uploader" }
+        context= {
+            'form' : UploadURLForm(),
+            'title': "%s Image Uploader" % WEBSITE_NAME,
+            'subhead': "Image Uploader" }
     else:
         # A POST request: Handle Form Upload
         form = UploadURLForm(request.POST)  # Bind data from request.POST to the form's one field
@@ -206,5 +216,7 @@ def upload_image(request):
 # end upload_image
 
 def about(request):
-    context = {'title': "Knit Knacks Pattern Database", 'subhead':"A Knack for the Needles"}
+    context = {
+        'title': "%s Pattern Database" % WEBSITE_NAME,
+        'subhead':"A Knack for the Needles"}
     return render(request,'PatternGenerator/about.html',context)
