@@ -30,8 +30,8 @@ def viewpatterns(request,pk):
     context = {
         'parent_img': w,
         'pattern_set': w_patterns,
-        'title': "Knit Knacks Pattern Set %s" % pk,
-        'subhead': "Patterns Set %s" % pk,
+        'title': "Knit Knacks Patterns",
+        'subhead': "Pattern Set %s" % pk,
         }
     return render(request,'PatternGenerator/ViewPatterns.html',context)
 # end viewpatterns
