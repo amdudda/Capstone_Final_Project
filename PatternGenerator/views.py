@@ -4,7 +4,7 @@ from .models import *
 from .ImageTools import MakePattern, ImageValidator, ImageDownloader
 from .forms import UploadURLForm
 from os import path
-import time
+import time, threading
 
 # Create your views here.
 
@@ -92,19 +92,36 @@ def genpattern(request,pk):
         '''
         # first get the filepath of the source image
         src_img = SourceImage.objects.get(id=pk)
-        new_pattern = create_new_pattern(src_img, num_colors, rpi, spi)
+        new_pattern = None
+        soie = threading.Thread(
+            group=None,
+            target=thread_new_pattern,
+            name="mk_new_pattern",
+            args=(new_pattern,src_img, num_colors, rpi, spi),
+            daemon=True
+        )
+        # new_pattern = create_new_pattern(src_img, num_colors, rpi, spi)
+        # start the silky thread and make the program wait till it's done so that new pattern isn't interfering with filesave.
+        soie.start()
+        soie.join()
 
         # pass data relevant to the ShowPattern page.
         context = { 'pattern': new_pattern }
 
         # let's send the user to the new pattern after a wait of a couple of seconds to give the system a moment
         # to save the image
-        time.sleep(4)
+        # time.sleep(4)
+
         # return render(request,'PatternGenerator/ShowPattern.html',context)
         url = "/ShowPattern/" + str(new_pattern.id)
         return HttpResponseRedirect(url)
-
 # end genpattern
+
+def thread_new_pattern(new_pat,src_img, num_colors, rpi, spi):
+    # this just lets me link new_pat to a variable in the parent thread
+    new_pat = create_new_pattern(src_img, num_colors, rpi, spi)
+    # return new_pat
+
 
 def create_new_pattern(src_img, num_colors=16, rpi=10, spi=10):
 
