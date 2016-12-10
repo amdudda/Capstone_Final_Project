@@ -124,7 +124,18 @@ def create_new_pattern(src_img, num_colors=16, rpi=10, spi=10):
     except:
         new_bmp = MakePattern.image2bitmap(src_fpath, spi=spi, rpi=rpi, farben=num_colors)
         new_bmp.save(target_fpath)
-        time.sleep(2) # make the program wait for the file to be written
+
+        while True:
+            # check if the file is done writing - don't let code proceed until filewrite is done.
+            try:
+                # try a quick open-close of the file - there will be an IOError if file still being written
+                file = open(target_fpath)
+                file.close()
+                break
+            except:
+                print('file still writing')
+                # pass
+
         # and create the new record in the database
         new_pattern = PatternImage.objects.create(
             filename=target_fname,
