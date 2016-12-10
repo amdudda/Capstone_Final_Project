@@ -5,10 +5,10 @@
 I'm a knitter.  I knit.  A _lot_.  And sometimes I'll use existing images, convert them to bitmaps, distort as needed to suit my ratio of stitches:rows per inch, and generate a pattern.  In the past I've done this manually, but I'd like to automate the process and store the results in a database that people can browse and use.
 
 ###Requirements
-The code is written using Python version 3.4 and Django 1.10.3.  Most modules are in the standard library, but you will need to install _webcolors_.  You should also make sure that _PIL_ (Pillow) is installed, because it is required for the image processing to work.
+The code is written using Python version 3.4 and Django 1.10.3.  Most modules are in the standard library, but you will need to install _webcolors_.  You should also make sure that _PIL_ (Pillow) is installed, because it is required for the image processing to work.  The database engine used is Sqlite3.
 
 ###Known issues
-* File saves seem to happen in untracked threads spawned in the OS.  This can lead to attempts to create or view patterns before the necessary files are done being written.  I've worked around this by testing to see if the file is openable before moving on to additional file-related tasks, but there's probably a better way to cope with it.
+* File saves seem to happen in untracked processes spawned in the OS.  This can lead to attempts to create or view patterns before the necessary files are done being written.  I've worked around this by testing to see if the file is openable before moving on to additional file-related tasks, but there's probably a better way to cope with it.
 
 ###Future development
 * Change the name of the site; "Knit Knacks" is used by __lots__ of people.  "Patternmaker's Guild" doesn't turn up much in the way of knitting-related stuff, so that might be usable.

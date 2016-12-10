@@ -27,3 +27,9 @@ class PatternImage(models.Model):
 
     def __str__(self):
         return self.filename
+
+class ImageTags(models.Model):
+    # this allows multiple tags to be associated with an image.
+    # it's SUPER annoying that Django doesn't support multicolumn PKs... :(
+    source_img = models.ForeignKey(SourceImage) # links to the source image
+    tag = models.CharField("tag",max_length=25) # I'm going to limit tags to 25 characters so they're short-ish
