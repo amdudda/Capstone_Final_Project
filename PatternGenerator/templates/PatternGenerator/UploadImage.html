@@ -2,7 +2,7 @@
 {# image uploader page #}
 {% include "./base.html" %}
 {% block content %}
-<div id="uploader_content">
+<div id="main_content">
     <p>Use this page to upload images from the web.  We strongly suggest you use small image sizes (less than 200 pixels), as our default pattern assumes 10x10 pixels corresponds to 1x1 inch.  This never happens in the real world, but it's a useful starting point to help judge whether a particular pattern will work well in knit form.  Once the original pattern is uploaded, you can generate additional patterns as needed to distort it in ways that ensure the final result will end up with similar proportions as the original image. </p>
     {# Just a web form for uploading images from a URL. #}
     <form action="{% url 'uploadimage' %}" method='POST'>{% csrf_token %}
