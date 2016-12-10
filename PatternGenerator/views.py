@@ -7,7 +7,7 @@ from os import path
 import time
 
 # Global variable for website name so I can change it easily later
-WEBSITE_NAME = "Knit Knacks"
+WEBSITE_NAME = "Patternmaker's Guild"
 
 # Create your views here.
 
@@ -20,7 +20,7 @@ def index(request):
     patterns = SourceImage.objects.all().order_by("-saved")
     context = {
         'patterns':patterns,
-        'title': " %s Pattern Database" % WEBSITE_NAME,
+        'title': "%s Pattern Database" % WEBSITE_NAME,
         'subhead':"Pattern Database"
     }
     return render(request,'PatternGenerator/index.html',context)
