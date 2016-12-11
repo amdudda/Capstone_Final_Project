@@ -24,3 +24,5 @@ class UploadURLForm(forms.Form):
     #     if not isImg:
     #         raise forms.ValidationError(_(ErrMsg))
     #     return url
+
+# TODO set up a form for pattern generation to exploit built-in validation
