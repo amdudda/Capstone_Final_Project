@@ -1,5 +1,6 @@
 body {
     background-color: aliceblue;
+    color: #551700;
 }
 
 header {
@@ -19,6 +20,12 @@ header h2 {
 header hr {
     width:90%;
     float: left;
+}
+
+button {
+    color: aliceblue;
+    background-color: #551700;
+    font-variant: small-caps;
 }
 
 .imagebox {
@@ -95,19 +102,32 @@ aside img {
     left: 0px;
     top: 0px;
     padding:2px 0 0px 5px;
-    background-color: #0f0800;
+    background-color: #551700;
     color: aliceblue;
     font-variant: small-caps;
 }
 
+a {
+    color: #AA5739;
+}
+
 #navbar a {
-    color: aliceblue;
+    color: #FFBEA4;
 }
 
 #copyright {
     float: right;
     font-size: small;
     padding-right: 5px;
+}
+
+#tbl_genpat {
+    border: 1px solid #551700;
+    margin-left: 3em;
+}
+
+#btn_genpat {
+    width: 100%;
 }
 
 #please_wait {

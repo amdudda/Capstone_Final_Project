@@ -21,8 +21,12 @@
         {# Django form for generating patterns #}
         <form name="resizer" method="POST" action="{% url 'genpatterns' src_img.id %}">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" onclick="show_wait_msg()">Generate Pattern</button>
+            <table id="tbl_genpat">
+            {{ form.as_table }}
+            <td colspan="2">
+                <button id="btn_genpat" type="submit" onclick="show_wait_msg()">Generate Pattern</button>
+            </td>
+            </table>
         </form>
         {# on form submission, route to pattern generator and then pass result to ShowPattern page #}
     {# Show a "please wait for pattern generation" message appear when the user clicks 'submit' #}

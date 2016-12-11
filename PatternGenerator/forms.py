@@ -27,9 +27,11 @@ class UploadURLForm(forms.Form):
 
 
 # form for pattern generation to exploit built-in validation
+# see https://docs.djangoproject.com/en/1.10/ref/forms/widgets/ for info on widgets
 class GeneratePatternForm(forms.Form):
     spi = forms.IntegerField(
         label="Stitches per Inch",
+        widget=forms.TextInput(attrs={'size':'3'}),
         initial=10,
         min_value=1,
         required=True,
@@ -37,6 +39,7 @@ class GeneratePatternForm(forms.Form):
     )
     rpi = forms.IntegerField(
         label="Rows Per Inch",
+        widget=forms.TextInput(attrs={'size':'3'}),
         initial=10,
         min_value=1,
         required=True,
@@ -44,6 +47,7 @@ class GeneratePatternForm(forms.Form):
     )
     numcolors = forms.IntegerField(
         label="Number of Colors",
+        widget=forms.TextInput(attrs={'size':'2'}),
         initial=8,
         max_value=16,
         min_value=2
