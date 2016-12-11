@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .models import *
 from .ImageTools import MakePattern, ImageValidator, ImageDownloader
-from .forms import UploadURLForm
+from .forms import UploadURLForm,GeneratePatternForm
 from os import path
 import time
 
@@ -80,6 +80,7 @@ def genpattern(request,pk):
             'src_img' : SourceImage.objects.get(id=pk),
             'title': "%s Pattern Generator" % WEBSITE_NAME,
             'subhead' : "Generate a New Pattern!",
+            'form' : GeneratePatternForm(),
         }
 
         # then render the page

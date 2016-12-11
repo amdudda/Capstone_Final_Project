@@ -20,9 +20,12 @@
         <p>Use this form to convert the image at left to a knitting pattern:</p>
         <form name="resizer" method="POST" action="{% url 'genpatterns' src_img.id %}">
             {% csrf_token %}
-            <label for="spi">Stitches Per Inch</label><input name="spi" type="text" value="10" size="3"/><br/>
-            <label for="rpi">Rows Per Inch</label><input name="rpi" type="text" value="10" size="3"/><br/>
-            <label for="numcolors">Number of colors</label><input name="numcolors" type="text" value="8" size="2"/><br/>
+            {{ form.as_p }}
+            <!---->
+            <!--<label for="spi">Stitches Per Inch</label><input name="spi" type="text" value="10" size="3"/><br/>-->
+            <!--<label for="rpi">Rows Per Inch</label><input name="rpi" type="text" value="10" size="3"/><br/>-->
+            <!--<label for="numcolors">Number of colors</label><input name="numcolors" type="text" value="8" size="2"/><br/>-->
+            <!---->
             <button type="submit">Generate Pattern</button>
         </form>
         {# on form submission, route to pattern generator and then pass result to ShowPattern page #}
