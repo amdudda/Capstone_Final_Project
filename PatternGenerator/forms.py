@@ -25,4 +25,24 @@ class UploadURLForm(forms.Form):
     #         raise forms.ValidationError(_(ErrMsg))
     #     return url
 
+
 # TODO set up a form for pattern generation to exploit built-in validation
+class GeneratePatternForm(forms.Form):
+    spi = forms.IntegerField(
+        label="Stitches per Inch",
+        initial=10,
+        required=True,
+        error_messages={"required":"Please enter an integer number of stitches per inch."}
+    )
+    rpi = forms.IntegerField(
+        label="Rows Per Inch",
+        initial=10,
+        required=True,
+        error_messages={"required":"Please enter an integer number of rows per inch."}
+    )
+    numcolors = forms.IntegerField(
+        label="Number of Colors",
+        initial=8,
+        max_value=16,
+        min_value=2
+    )
