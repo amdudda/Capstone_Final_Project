@@ -1,4 +1,5 @@
 '''
+    A module to create and store knitting patterns.
     PIL documentation at http://www.effbot.org/imagingbook/image.htm
 '''
 from PIL import Image
