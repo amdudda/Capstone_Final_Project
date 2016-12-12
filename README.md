@@ -19,3 +19,4 @@ The code is written using Python version 3.4 and Django 1.10.3.  Most modules ar
 * Write a cleanup module to delete files that don't have corresponding database records and database records that don't have corresponding images.
 * Search functionality, so users can search by number of colors, image size, or a particular gauge.
 * I will probably have to migrate to a more robust database system if I publish the site somewhere online.
+* UNIT TESTING!!!
