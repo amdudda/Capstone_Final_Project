@@ -14,6 +14,7 @@ The code is written using Python version 3.4 and Django 1.10.3.  Most modules ar
 * Change the name of the site; "Patternmaker's Guild" looks like it might be the name of an active (rather than historical) union or guild, and I don't want to cause confusion.
 * Establish user accounts.  This will let me move the file uploads behind a login, so that I can make reasonable attempts at assuring that it's actual human beings doing the file uploads and allow me to track the usernames of the accounts doing the uploads.
 * Allow users to rotate and/or resize an image during the upload.  This will save users some steps in the creation of patterns for banners (e.g. to knit scarves) or getting an image of appropriate pixel width.
+* Local file uploads instead of from the web.
 * Allow user to set tags for images on image upload page.  Currently tags must be hand-curated in the admin console.
 * Generate cross-stitch patterns. This involves tweaking the current pattern generation module into a new module for cross-stitch and coding a view to create the grid layout.
 * Write a cleanup module to delete files that don't have corresponding database records and database records that don't have corresponding images.
