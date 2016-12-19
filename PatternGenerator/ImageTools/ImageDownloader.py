@@ -8,11 +8,12 @@ from os import path
 from io import BytesIO
 import time, requests
 
-def FetchImage(url,directory="."):
+def FetchImage(url,directory=".",rotation=None):
     '''
     Downloads and saves an image
     :param url: The URL of the image to be downloaded
     :param directory: the directory where the image is to be saved.
+    :param rotation: whether to rotate the image 90 degrees; True if yes, False or None if not.
     :return: a tuple containing (file name, image width, image height) if successful, False otherwise.
     '''
 
@@ -27,6 +28,8 @@ def FetchImage(url,directory="."):
         savable_image = download_image(url)
         # then we validate that the image's size is small enough to fit in our database before we actually save it
         if isValidSize(savable_image):
+            if rotation:
+                savable_image.rotate(90) # rotate 90 degrees counterclockwise
             savable_image.save(img_file_path)
             # return the file name so the file's metadata can be stored in the database
             # return height/width metadata, too
